@@ -15,6 +15,7 @@ concurrency:
 
 env:
   FLUTTER_VERSION: '3.47.1'
+  NODE_VERSION: '24'
   RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
 
 permissions:
@@ -32,6 +33,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
