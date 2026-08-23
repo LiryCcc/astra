@@ -13,8 +13,8 @@
 
 | 平台 | 最低版本 |
 |------|----------|
-| Android | API 21（Android 5.0） |
-| iOS | iOS 12 |
+| Android | API 33（Android 13.0） |
+| iOS | iOS 18 |
 | Windows | Windows 10 |
 | macOS | macOS 10.14 |
 

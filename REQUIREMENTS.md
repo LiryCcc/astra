@@ -13,7 +13,7 @@
 | 移动端 | Android、iOS（手机 + 平板） |
 | 桌面端 | Windows、macOS |
 | 响应式 | 手机、平板、桌面三种布局形态 |
-| 最低版本建议 | Android API 21+、iOS 12+、Windows 10+、macOS 10.14+ |
+| 最低版本建议 | Android 13.0+（API 33+）、iOS 18+、Windows 10+、macOS 10.14+ |
 
 ---
 

@@ -21,6 +21,31 @@ flutter create --org com.astra --platforms=android,ios,windows,macos .
 
 若目录非空，可在子目录创建后移动，或使用 `.` 在当前 `astra` 目录初始化。
 
+## 2.1 配置移动端最低版本
+
+创建项目后，将 Android / iOS 最低版本设为 **Android 13.0（API 33）** 与 **iOS 18**：
+
+**Android** — `android/app/build.gradle.kts`（或 `build.gradle`）：
+
+```kotlin
+defaultConfig {
+    minSdk = 33
+}
+```
+
+**iOS** — `ios/Podfile`：
+
+```ruby
+platform :ios, '18.0'
+```
+
+并在 `ios/Runner.xcodeproj` 中将 **iOS Deployment Target** 设为 `18.0`。
+
+构建镜像与 SPM 配置见仓库 [`config/README.md`](../../config/README.md)：
+
+- Android：Maven 国内镜像 + Gradle 腾讯云下载（`config/android/`）
+- iOS：SPM 集成，执行 `flutter config --enable-swift-package-manager`
+
 ## 3. 安装依赖
 
 ```bash

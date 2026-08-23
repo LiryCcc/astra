@@ -1,0 +1,21 @@
+# Astra 项目构建配置（仓库级约定）
+
+android:
+  min_sdk: 33
+  min_os: "13.0"
+  maven_mirrors:
+    - name: tencent
+      url: https://mirrors.cloud.tencent.com/nexus/repository/maven-public/
+    - name: aliyun_google
+      url: https://maven.aliyun.com/repository/google
+    - name: aliyun_public
+      url: https://maven.aliyun.com/repository/public
+    - name: aliyun_gradle_plugin
+      url: https://maven.aliyun.com/repository/gradle-plugin
+  gradle_distribution_mirror: tencent
+  gradle_distribution_url_template: https://mirrors.cloud.tencent.com/gradle/gradle-{version}-all.zip
+
+ios:
+  swift_package_manager: true
+  minimum_version: "18.0"
+  # 不使用 CocoaPods；插件通过 FlutterGeneratedPluginSwiftPackage (SPM) 集成

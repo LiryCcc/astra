@@ -20,8 +20,21 @@ coverage/
 .DS_Store
 Thumbs.db
 
-# Platform (added after flutter create)
+# Android
 **/android/.gradle/
 **/android/local.properties
+**/android/captures/
+**/android/key.properties
+
+# iOS (SPM — no CocoaPods)
 **/ios/Pods/
 **/ios/.symlinks/
+**/ios/Flutter/ephemeral/
+**/ios/Podfile
+**/ios/Podfile.lock
+
+# macOS
+**/macos/Flutter/ephemeral/
+
+# Windows
+**/windows/flutter/ephemeral/
