@@ -57,3 +57,5 @@ flutter pub add dev:build_runner dev:riverpod_generator dev:hive_generator dev:f
 flutter pub get
 dart run build_runner build
 ```
+
+代码格式化与 Lint 见 [代码质量工具](09-code-quality.md)。
