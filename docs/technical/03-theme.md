@@ -7,7 +7,7 @@
 ## ThemeData 定义
 
 ```dart
-// app_theme.dart
+// utils/app_theme.dart
 class AppTheme {
   static ThemeData light = ThemeData(
     useMaterial3: true,
@@ -32,7 +32,7 @@ class AppTheme {
 ```dart
 enum AppThemePreference { light, dark, system }
 
-// theme_provider.dart
+// store/theme_store.dart
 @riverpod
 class ThemeModeNotifier extends _$ThemeModeNotifier {
   @override

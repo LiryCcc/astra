@@ -9,7 +9,7 @@
 | 状态管理 | Riverpod | 轻量、可测试、与 `MaterialApp` 配合好 |
 | 路由 | go_router | 声明式路由、ShellRoute 支持好 |
 | 本地存储 | shared_preferences + Hive | 设置简单、Todo 结构化 |
-| 国际化 | flutter_localizations + intl + ARB | 官方 i18n 流程 |
+| 国际化 | `lib/i18n/` 纯 Dart 文案 | 类型安全、无代码生成 |
 | 响应式 | LayoutBuilder + 自定义断点 | 无额外依赖、可控 |
 
 ## 项目结构
@@ -17,55 +17,53 @@
 ```
 astra/
 ├── lib/
-│   ├── main.dart                      # 入口、ProviderScope
-│   ├── app.dart                       # MaterialApp、主题与 locale 绑定
-│   ├── core/
-│   │   ├── constants/
-│   │   │   └── breakpoints.dart       # 断点常量
-│   │   ├── theme/
-│   │   │   ├── app_theme.dart         # light/dark ThemeData
-│   │   │   └── theme_provider.dart    # ThemeMode 状态与持久化
-│   │   ├── l10n/
-│   │   │   └── locale_provider.dart   # Locale 状态与持久化
-│   │   └── router/
-│   │       └── app_router.dart        # go_router 配置
-│   ├── features/
-│   │   ├── home/
-│   │   │   ├── home_page.dart
-│   │   │   └── widgets/
-│   │   ├── settings/
-│   │   │   ├── settings_page.dart
-│   │   │   └── widgets/
-│   │   └── todos/
-│   │       ├── todo_page.dart
-│   │       ├── models/todo.dart
-│   │       ├── repositories/todo_repository.dart
-│   │       ├── providers/todo_provider.dart
-│   │       └── widgets/
-│   └── shared/
-│       └── widgets/
-│           ├── adaptive_scaffold.dart # 自适应导航外壳
-│           └── responsive_builder.dart
-├── l10n/
-│   ├── app_en.arb                     # 英文模板
-│   ├── app_zh.arb
-│   └── app_ja.arb
+│   ├── main.dart
+│   ├── app.dart
+│   ├── pages/
+│   │   ├── home_page.dart
+│   │   ├── settings_page.dart
+│   │   └── todos_page.dart
+│   ├── components/
+│   │   └── adaptive_scaffold.dart
+│   ├── store/
+│   │   ├── theme_store.dart
+│   │   ├── locale_store.dart
+│   │   ├── todo_store.dart
+│   │   └── i18n_provider.dart
+│   ├── i18n/
+│   │   ├── schema.dart
+│   │   ├── zh_cn.dart
+│   │   ├── en.dart
+│   │   └── jp.dart
+│   ├── utils/
+│   │   ├── app_router.dart
+│   │   ├── app_theme.dart
+│   │   └── breakpoints.dart
+│   └── adapters/
+│       ├── android/
+│       ├── ios/
+│       ├── mac/
+│       └── windows/
 ├── android/
 ├── ios/
 ├── windows/
 ├── macos/
 ├── pubspec.yaml
-├── l10n.yaml
 └── analysis_options.yaml
 ```
+
+完整归档与依赖规则见根目录 `AGENTS.md`。
 
 ## 分层原则
 
 | 层 | 职责 |
 |----|------|
-| `features/` | 按功能模块组织 UI 与模块内状态 |
-| `core/` | 主题、路由、国际化、常量等全局能力 |
-| `shared/` | 跨模块复用组件（如 AdaptiveScaffold） |
+| `pages/` | 路由页面 UI |
+| `components/` | 跨页面公共组件 |
+| `store/` | 全局状态（主题、语言、Todo 等） |
+| `i18n/` | 文案表与各语言实现 |
+| `utils/` | 路由、主题数据、常量 |
+| `adapters/` | 平台特定实现 |
 
 ## 入口流程
 
@@ -74,6 +72,6 @@ main()
   → WidgetsFlutterBinding.ensureInitialized()
   → Hive.initFlutter() / SharedPreferences
   → runApp(ProviderScope(child: AstraApp()))
-       → AstraApp 监听 themeProvider、localeProvider
+       → AstraApp 监听 themeStore、localeStore
        → MaterialApp.router(routerConfig: appRouter)
 ```

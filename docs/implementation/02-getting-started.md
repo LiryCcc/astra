@@ -31,9 +31,8 @@ flutter pub get
 
 ## 4. 配置国际化
 
-1. 创建 `l10n.yaml` 与 `l10n/app_en.arb` 等文件（见 [国际化方案](../technical/04-i18n.md)）
-2. 在 `pubspec.yaml` 中启用 `generate: true`
-3. 运行 `flutter gen-l10n`
+1. 创建 `lib/i18n/schema.dart` 及 `zh_cn.dart`、`en.dart`、`jp.dart`（见 [国际化方案](../technical/04-i18n.md)）
+2. 在 `store/` 中实现 `locale_store.dart` 与 `i18n_provider.dart`
 
 ## 5. 代码生成
 

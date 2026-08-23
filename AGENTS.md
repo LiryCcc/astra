@@ -25,6 +25,8 @@ tool/check_format.ps1                      # 脚本
 assets/images/app_logo.png                 # 资源
 lib/pages/home_page.dart                   # 路由页面
 lib/components/adaptive_scaffold.dart      # 公共组件
+lib/store/locale_store.dart                # 全局状态
+lib/i18n/schema.dart                       # i18n 文案表
 lib/utils/app_router.dart                  # 工具库
 lib/adapters/windows/window_adapter.dart   # 平台适配
 ```
@@ -36,6 +38,7 @@ lib/pages/home-page.dart                   # ❌ kebab-case
 lib/pages/HomePage.dart                    # ❌ PascalCase
 lib/pages/homePage.dart                    # ❌ camelCase
 lib/features/home_page.dart                # ❌ 使用未定义的 features 目录
+lib/i18n/strings.json                      # ❌ 文案不得放在 JSON/YAML 等文件
 ```
 
 ### 不适用本规范的例外
@@ -65,7 +68,16 @@ lib/
 │   └── todos_page.dart       #   /todos    TodoMVC 页
 ├── components/               # 公共组件（跨页面复用的 UI）
 │   └── adaptive_scaffold.dart
-├── utils/                    # 工具库（纯逻辑、常量、路由配置、Provider 等）
+├── store/                    # 全局状态（Riverpod Provider / Notifier）
+│   ├── theme_store.dart
+│   ├── locale_store.dart
+│   └── todo_store.dart
+├── i18n/                     # 国际化文案（纯 Dart，禁止 JSON/YAML/ARB）
+│   ├── schema.dart           # 文案表定义（key 与类型契约）
+│   ├── zh_cn.dart            # 简体中文
+│   ├── en.dart               # 英文
+│   └── jp.dart               # 日语
+├── utils/                    # 工具库（路由配置、主题数据、常量等）
 │   ├── app_router.dart
 │   ├── app_theme.dart
 │   └── breakpoints.dart
@@ -83,7 +95,9 @@ lib/
 | `lib/main.dart`、`lib/app.dart` | **入口层** | 应用启动、全局依赖注入、`MaterialApp` 组装 |
 | `lib/pages/` | **页面层** | 路由表中的每个页面对应一个文件（或同名子目录），仅负责该路由的 UI 与页面级状态 |
 | `lib/components/` | **组件层** | 多个页面复用的 Widget，不含业务路由逻辑 |
-| `lib/utils/` | **工具层** | 主题、路由表、断点、格式化、通用 Provider/Repository 等与 UI 无关或可复用的逻辑 |
+| `lib/store/` | **状态层** | 全局状态逻辑：主题、语言偏好、Todo 列表等 Riverpod `Provider` / `Notifier` |
+| `lib/i18n/` | **文案层** | 各语言文案 Dart 文件；`schema.dart` 定义文案表结构 |
+| `lib/utils/` | **工具层** | 路由表、主题 `ThemeData`、断点常量等与 UI 无强绑定的纯逻辑 |
 | `lib/adapters/` | **适配层** | 各平台差异实现（文件 IO、窗口、权限等），按平台分子目录 |
 
 ### 路由表与 pages 映射
@@ -98,6 +112,44 @@ lib/
 
 页面私有 Widget 放在该页面同级子目录，例如 `pages/home/widgets/`；**只有**跨页面复用才提升到 `components/`。
 
+页面级临时状态留在 `pages/` 内；**跨页面共享或需持久化的状态** 放入 `store/`。
+
+### i18n 规范
+
+- 文案 **只写在 Dart 代码中**，禁止使用 JSON、YAML、ARB 等外部文案文件
+- 文件固定为四份：
+
+| 文件 | 职责 |
+|------|------|
+| `schema.dart` | 定义文案表（字段 / key、类型契约），作为各语言文件的约束 |
+| `zh_cn.dart` | 简体中文文案实现 |
+| `en.dart` | 英文文案实现 |
+| `jp.dart` | 日语文案实现 |
+
+- 新增文案时：**先** 在 `schema.dart` 增加字段，**再** 同步更新 `zh_cn.dart`、`en.dart`、`jp.dart`
+- 语言切换由 `store/locale_store.dart` 管理；页面通过 store 获取当前语言并读取对应文案
+
+```dart
+// schema.dart — 文案表定义
+abstract class I18nSchema {
+  String get appTitle;
+  String get navHome;
+  // ...
+}
+
+// en.dart — 英文实现
+class EnI18n implements I18nSchema {
+  @override
+  String get appTitle => 'Astra';
+  @override
+  String get navHome => 'Home';
+}
+
+// 使用
+final strings = ref.watch(i18nProvider); // store 根据 locale 返回对应 I18nSchema 实现
+Text(strings.navHome);
+```
+
 ### 单向依赖规则
 
 依赖方向 **只能从上到下**，下层 **禁止** import 上层：
@@ -109,32 +161,42 @@ pages/
     ↓
 components/
     ↓
+store/
+    ↓
 utils/
     ↓
 adapters/（android / ios / mac / windows）
+
+pages / components 可读 → i18n/（文案层，与 store 并列消费，i18n 自身不依赖上层）
+i18n/zh_cn.dart、en.dart、jp.dart → 仅依赖 i18n/schema.dart
 ```
 
 | 层级 | 允许依赖 | 禁止依赖 |
 |------|----------|----------|
-| 入口 | `pages`、`components`、`utils`、`adapters` | — |
-| `pages/` | `components`、`utils`、`adapters` | `main.dart` / `app.dart`、其他 `pages/` |
-| `components/` | `utils`、`adapters` | `pages/`、入口 |
-| `utils/` | `adapters` | `pages/`、`components/`、入口 |
-| `adapters/` | 仅 SDK / 第三方包 | `pages/`、`components/`、`utils/`、入口、其他平台子目录（通过抽象接口解耦） |
+| 入口 | `pages`、`components`、`store`、`i18n`、`utils`、`adapters` | — |
+| `pages/` | `components`、`store`、`i18n`、`utils`、`adapters` | 入口、其他 `pages/` |
+| `components/` | `store`、`i18n`、`utils`、`adapters` | `pages/`、入口 |
+| `store/` | `utils`、`adapters` | `pages/`、`components/`、`i18n/`、入口 |
+| `i18n/` | 仅 `schema.dart`（语言文件之间互不依赖） | `pages/`、`components/`、`store/`、`utils/`、`adapters/`、入口 |
+| `utils/` | `adapters` | `pages/`、`components/`、`store/`、`i18n/`、入口 |
+| `adapters/` | 仅 SDK / 第三方包 | 上层所有目录 |
 
 ### 禁止反向依赖（示例）
 
 ```dart
-// ❌ adapters 引用 pages
+// ❌ store 引用 pages
 import '../pages/home_page.dart';
 
-// ❌ utils 引用 components
-import '../components/adaptive_scaffold.dart';
+// ❌ i18n 引用 store
+import '../store/locale_store.dart';
 
-// ❌ components 引用 pages
-import '../pages/settings_page.dart';
+// ❌ utils 引用 store
+import '../store/theme_store.dart';
 
-// ❌ pages 互相引用（应通过路由跳转，而非直接 import 其他页面）
+// ❌ 文案放在 JSON/YAML
+// assets/i18n/en.json
+
+// ❌ pages 互相引用
 import 'todos_page.dart';
 ```
 
@@ -156,6 +218,8 @@ import 'todos_page.dart';
 
 - 所有新建文件与目录统一使用 snake_case，禁止使用 kebab-case、camelCase、PascalCase 文件名
 - 新建代码时放入 `AGENTS.md` 规定的目录，不得随意创建 `features/`、`shared/` 等未定义顶层目录
+- 全局状态放 `store/`，不得散落在 `pages/` 或 `utils/`；文案放 `i18n/`，禁止 JSON/YAML/ARB
+- 新增 i18n 文案先改 `schema.dart`，再同步三语言文件
 - 新增路由必须同步更新 `pages/` 与路由配置（`utils/app_router.dart`）
 - 发现不符合规范且可安全重命名的旧文件，重构时一并修正并更新引用
 - 添加 import 前检查单向依赖，拒绝引入反向依赖

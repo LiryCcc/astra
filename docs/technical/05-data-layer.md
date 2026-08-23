@@ -43,7 +43,7 @@ abstract class TodoRepository {
 }
 ```
 
-## 状态 Provider
+## 状态管理（`store/todo_store.dart`）
 
 ```dart
 @riverpod

@@ -29,7 +29,7 @@
 | [架构与目录](technical/01-architecture.md) | 技术栈、项目结构 |
 | [路由方案](technical/02-routing.md) | go_router 设计 |
 | [主题方案](technical/03-theme.md) | 主题与持久化 |
-| [国际化方案](technical/04-i18n.md) | ARB 与 Locale 管理 |
+| [国际化方案](technical/04-i18n.md) | Dart 文案与 Locale 管理 |
 | [数据层](technical/05-data-layer.md) | Todo 模型与存储 |
 | [多端适配方案](technical/06-adaptive-implementation.md) | 断点、导航、布局实现 |
 | [平台注意事项](technical/07-platform-notes.md) | 各平台差异处理 |

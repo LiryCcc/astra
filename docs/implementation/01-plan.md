@@ -23,7 +23,7 @@
 1. `flutter create --org com.astra --platforms=android,ios,windows,macos`
 2. 添加 pubspec 依赖（见 [依赖清单](../technical/08-dependencies.md)）
 3. 搭建目录结构（见 [架构与目录](../technical/01-architecture.md)）
-4. 配置 `analysis_options.yaml`、`l10n.yaml`
+4. 配置 `analysis_options.yaml`
 5. 创建占位 `HomePage`、`SettingsPage`、`TodoPage`
 6. 验证 `flutter run` 在至少一个目标平台成功
 
@@ -37,11 +37,11 @@
 
 **任务**：
 
-1. 实现 `AppTheme`（light/dark）
-2. 实现 `ThemeModeNotifier` + shared_preferences 持久化
-3. 创建三份 ARB 文件，运行 `flutter gen-l10n`
-4. 实现 `LocaleNotifier` + 持久化
-5. 完成 `SettingsPage` 主题与语言 UI
+1. 实现 `utils/app_theme.dart`（light/dark）
+2. 实现 `store/theme_store.dart` + shared_preferences 持久化
+3. 创建 `i18n/schema.dart`、`zh_cn.dart`、`en.dart`、`jp.dart`
+4. 实现 `store/locale_store.dart` + `store/i18n_provider.dart`
+5. 完成 `settings_page` 主题与语言 UI
 6. `MaterialApp` 绑定 theme、darkTheme、themeMode、locale
 
 **完成标志**：设置页切换主题/语言立即生效，重启后恢复。
