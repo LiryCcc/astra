@@ -1,10 +1,31 @@
-# GitHub Actions — Release 构建
+# CI / GitHub Actions
 
 ## 工作流
 
 | 文件 | 说明 |
 |------|------|
+| [.github/workflows/ci.yml](../../.github/workflows/ci.yml) | 推送 / PR 时代码检查 |
 | [.github/workflows/release.yml](../../.github/workflows/release.yml) | 四端打包并发布 GitHub Release |
+
+## CI 检查（`ci.yml`）
+
+在 `main` 分支 push 或 PR 时自动运行：
+
+1. `dart format` 格式检查（120 列）
+2. `dart analyze --fatal-infos` 静态分析 / Linter
+3. `flutter test` 单元 / Widget 测试
+
+本地等价命令：
+
+```powershell
+.\tool\check.ps1
+```
+
+## Release 构建（`release.yml`）
+
+**先执行与 CI 相同的代码质量检查**，通过后再并行构建四端产物并上传 GitHub Release。
+
+检查步骤：format → analyze → test → build (android / ios / windows / macos) → release
 
 ## 触发方式
 

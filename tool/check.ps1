@@ -17,4 +17,11 @@ if ($LASTEXITCODE -ne 0) {
   exit $LASTEXITCODE
 }
 
+Write-Host "Running flutter test..." -ForegroundColor Cyan
+flutter test
+if ($LASTEXITCODE -ne 0) {
+  Write-Host "Tests failed." -ForegroundColor Red
+  exit $LASTEXITCODE
+}
+
 Write-Host "All checks passed." -ForegroundColor Green

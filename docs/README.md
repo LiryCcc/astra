@@ -35,7 +35,7 @@
 | [平台注意事项](technical/07-platform-notes.md) | 各平台差异处理 |
 | [依赖清单](technical/08-dependencies.md) | pubspec 依赖 |
 | [代码质量工具](technical/09-code-quality.md) | 格式化与 Linter 配置 |
-| [CI / Release](technical/11-ci-release.md) | GitHub Actions 四端打包 |
+| [CI / Release](technical/11-ci-release.md) | GitHub Actions 检查与四端打包 |
 
 ### 实施计划 (`implementation/`)
 

@@ -2,9 +2,12 @@
 
 ## 概述
 
-推送 `v*` 标签或手动触发 [Release 工作流](../../.github/workflows/release.yml)，在四个平台并行构建并上传到 **GitHub Release**。
+| 工作流 | 触发 | 作用 |
+|--------|------|------|
+| [CI](../../.github/workflows/ci.yml) | push / PR → `main` | 格式、Linter、测试 |
+| [Release](../../.github/workflows/release.yml) | push / 手动 | 先检查，再四端打包上传 Release |
 
-详细操作与产物说明见 [config/github/release.md](../../config/github/release.md)。
+详细说明见 [config/github/release.md](../../config/github/release.md)。
 
 ## 产物清单
 

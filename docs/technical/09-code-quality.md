@@ -48,7 +48,7 @@ dart analyze --fatal-infos
 |------|------|
 | `tool/format.ps1` / `format.sh` | 格式化所有 Dart 文件 |
 | `tool/lint.ps1` / `lint.sh` | 运行 `dart analyze` |
-| `tool/check.ps1` / `check.sh` | 检查格式是否合规 + 运行 analyze（CI 用） |
+| `tool/check.ps1` / `check.sh` | 格式检查 + analyze + `flutter test`（CI 用） |
 
 ## Linter 规则
 

@@ -13,4 +13,7 @@ fi
 echo "Running dart analyze..."
 dart analyze --fatal-infos
 
+echo "Running flutter test..."
+flutter test
+
 echo "All checks passed."
