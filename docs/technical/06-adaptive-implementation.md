@@ -105,23 +105,28 @@ class ContentContainer extends StatelessWidget {
 
 | 页面 | maxWidth |
 |------|----------|
-| 首页 | 960 |
+| 首页 | 不限宽（全屏居中） |
 | 设置页 | 720 |
 | Todo 页 | 800 |
 
-## 首页多列布局
+## 首页居中布局
 
 ```dart
-LayoutBuilder(
-  builder: (context, constraints) {
-    final columns = constraints.maxWidth >= 600 ? 2 : 1;
-    return GridView.count(
-      crossAxisCount: columns,
-      children: [StatsCard(), QuickActionsCard()],
-    );
-  },
+Center(
+  child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Image.asset('assets/logo.png', width: 96, height: 96),
+      const SizedBox(height: 16),
+      Text('Astra', style: Theme.of(context).textTheme.headlineMedium),
+      const SizedBox(height: 8),
+      Text('1.0.0', style: Theme.of(context).textTheme.bodyMedium),
+    ],
+  ),
 )
 ```
+
+版本号建议通过 `package_info_plus` 读取 `pubspec.yaml` 中的 `version` 字段，避免硬编码。
 
 ## 桌面 Hover 态
 

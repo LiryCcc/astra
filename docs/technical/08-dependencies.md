@@ -23,6 +23,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   intl: any
+  package_info_plus: ^8.1.2
 
 dev_dependencies:
   flutter_test:
@@ -43,6 +44,7 @@ dev_dependencies:
 | shared_preferences | 主题、语言偏好持久化 |
 | hive + hive_flutter | Todo 本地存储 |
 | hive_generator | Todo 模型 Adapter 生成 |
+| package_info_plus | 首页读取应用版本号 |
 | intl | 国际化格式化 |
 | flutter_lints | 静态分析规则 |
 
@@ -50,7 +52,7 @@ dev_dependencies:
 
 ```bash
 flutter create --org com.astra --platforms=android,ios,windows,macos .
-flutter pub add flutter_riverpod riverpod_annotation go_router shared_preferences hive hive_flutter
+flutter pub add flutter_riverpod riverpod_annotation go_router shared_preferences hive hive_flutter package_info_plus
 flutter pub add dev:build_runner dev:riverpod_generator dev:hive_generator dev:flutter_lints
 flutter pub get
 dart run build_runner build

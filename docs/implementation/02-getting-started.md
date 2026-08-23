@@ -24,7 +24,7 @@ flutter create --org com.astra --platforms=android,ios,windows,macos .
 ## 3. 安装依赖
 
 ```bash
-flutter pub add flutter_riverpod riverpod_annotation go_router shared_preferences hive hive_flutter
+flutter pub add flutter_riverpod riverpod_annotation go_router shared_preferences hive hive_flutter package_info_plus
 flutter pub add dev:build_runner dev:riverpod_generator dev:hive_generator dev:flutter_lints
 flutter pub get
 ```
