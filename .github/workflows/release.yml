@@ -165,10 +165,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install packaging tools
+        run: choco install innosetup 7zip -y
+
+      - name: Configure static linking
+        shell: pwsh
+        run: |
+          & "${{ github.workspace }}/tool/configure_static_link.ps1" `
+            -Workspace "${{ github.workspace }}"
+
       - name: Build Windows
         run: flutter build windows --release
 
-      - name: Package artifact
+      - name: Package artifacts
         shell: pwsh
         run: |
           $tag = "${{ env.RELEASE_TAG }}"
@@ -177,13 +186,18 @@ jobs:
           } else {
             $version = $tag
           }
-          Compress-Archive -Path "build/windows/x64/runner/Release/*" -DestinationPath "astra-windows-$version.zip"
+          & "${{ github.workspace }}/tool/package_windows_release.ps1" `
+            -Version $version `
+            -Workspace "${{ github.workspace }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: windows
-          path: astra-windows-*.zip
+          path: |
+            astra-windows-*-portable.zip
+            astra-windows-*-setup.exe
+            astra-windows-*-standalone.exe
           if-no-files-found: error
 
   build-macos:
@@ -209,24 +223,29 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Configure static linking
+        run: bash tool/configure_static_link.sh "${{ github.workspace }}"
+
       - name: Build macOS
         run: flutter build macos --release
 
-      - name: Package artifact
+      - name: Package artifacts
         run: |
           if [[ "$RELEASE_TAG" == v* ]]; then
             VERSION="${RELEASE_TAG#v}"
           else
             VERSION="$RELEASE_TAG"
           fi
-          cd build/macos/Build/Products/Release
-          zip -r "${GITHUB_WORKSPACE}/astra-macos-${VERSION}.zip" astra.app
+          bash tool/package_macos_release.sh "$VERSION" "$GITHUB_WORKSPACE"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: macos
-          path: astra-macos-*.zip
+          path: |
+            astra-macos-*-portable.zip
+            astra-macos-*.dmg
+            astra-macos-*-standalone.run
           if-no-files-found: error
 
   release:

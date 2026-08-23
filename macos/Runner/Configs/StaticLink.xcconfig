@@ -1,0 +1,5 @@
+// Static linking preferences for release builds.
+// FlutterMacOS.framework and plugin frameworks remain dynamically linked.
+OTHER_LDFLAGS = $(inherited) -lc++
+DEAD_CODE_STRIPPING = YES
+LLVM_LTO = YES

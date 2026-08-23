@@ -11,12 +11,16 @@
 
 ## 产物清单
 
-| 平台    | 文件                                         |
-| ------- | -------------------------------------------- |
-| Android | `astra-android-<version>.apk`                |
-| iOS     | `astra-ios-unsigned-<version>.ipa`（未签名） |
-| Windows | `astra-windows-<version>.zip`                |
-| macOS   | `astra-macos-<version>.zip`                  |
+| 平台    | 文件                                               |
+| ------- | -------------------------------------------------- |
+| Android | `astra-android-<version>.apk`                      |
+| iOS     | `astra-ios-unsigned-<version>.ipa`（未签名）       |
+| Windows | `astra-windows-<version>-portable.zip`（便携）     |
+| Windows | `astra-windows-<version>-setup.exe`（安装包）        |
+| Windows | `astra-windows-<version>-standalone.exe`（单文件）   |
+| macOS   | `astra-macos-<version>-portable.zip`（便携）       |
+| macOS   | `astra-macos-<version>.dmg`（安装包）              |
+| macOS   | `astra-macos-<version>-standalone.run`（单文件）   |
 
 ## 发布新版本
 

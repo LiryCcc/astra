@@ -2,6 +2,8 @@
 cmake_minimum_required(VERSION 3.14)
 project(astra LANGUAGES CXX)
 
+include(cmake/static_runtime.cmake)
+
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "astra")

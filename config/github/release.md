@@ -42,14 +42,32 @@ git push origin v1.0.0
 
 ## 构建产物
 
-| 平台    | 产物                               | 说明                              |
-| ------- | ---------------------------------- | --------------------------------- |
-| Android | `astra-android-<version>.apk`      | Release APK                       |
-| iOS     | `astra-ios-unsigned-<version>.ipa` | **未签名** IPA（`--no-codesign`） |
-| Windows | `astra-windows-<version>.zip`      | `Release/` 目录压缩包             |
-| macOS   | `astra-macos-<version>.zip`        | `astra.app` 压缩包                |
+| 平台    | 产物                                               | 说明                                      |
+| ------- | -------------------------------------------------- | ----------------------------------------- |
+| Android | `astra-android-<version>.apk`                      | Release APK                               |
+| iOS     | `astra-ios-unsigned-<version>.ipa`                 | **未签名** IPA（`--no-codesign`）         |
+| Windows | `astra-windows-<version>-portable.zip`             | 便携版（解压即用）                        |
+| Windows | `astra-windows-<version>-setup.exe`                | Inno Setup 安装包                         |
+| Windows | `astra-windows-<version>-standalone.exe`             | 单文件自解压（含 `/MT` 静态 CRT）         |
+| macOS   | `astra-macos-<version>-portable.zip`               | 便携版（`.app` 压缩包）                   |
+| macOS   | `astra-macos-<version>.dmg`                        | DMG 安装镜像                              |
+| macOS   | `astra-macos-<version>-standalone.run`             | 单文件自解压（解压到临时目录后启动）      |
 
 `<version>` 为标签去掉 `v` 前缀，例如标签 `v1.0.0` → `1.0.0`。
+
+## Windows / macOS 单文件说明
+
+Flutter 引擎（`flutter_windows.dll` / `Frameworks/`）无法静态链接进单个可执行文件。Release 构建前会执行静态链接配置：
+
+- **Windows**：`Configure static linking` 启用 `/MT` 静态 MSVC 运行时（`windows/cmake/static_runtime.cmake`）
+- **macOS**：`Configure static linking` 启用 `StaticLink.xcconfig`（`-lc++`、LTO、dead code stripping）
+
+因此：
+
+- **Windows `standalone.exe`**：7-Zip 自解压单文件；无需 `vcruntime140*.dll`，但引擎 DLL 与 `data/` 仍在包内。
+- **macOS `standalone.run`**：自解压 shell 脚本 + tar.gz，运行后解压到临时目录并启动 `.app`。
+
+便携 zip 与安装包为完整、推荐的分发方式。
 
 ## Runner 分配
 
