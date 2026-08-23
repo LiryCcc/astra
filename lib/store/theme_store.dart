@@ -10,10 +10,9 @@ final sharedPreferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError('SharedPreferences not initialized'),
 );
 
-final themePreferenceProvider =
-    NotifierProvider<ThemePreferenceNotifier, AppThemePreference>(
-      ThemePreferenceNotifier.new,
-    );
+final themePreferenceProvider = NotifierProvider<ThemePreferenceNotifier, AppThemePreference>(
+  ThemePreferenceNotifier.new,
+);
 
 final themeModeProvider = Provider<ThemeMode>((ref) {
   return ref.watch(themePreferenceProvider).toThemeMode();
@@ -23,9 +22,7 @@ class ThemePreferenceNotifier extends Notifier<AppThemePreference> {
   @override
   AppThemePreference build() {
     final prefs = ref.watch(sharedPreferencesProvider);
-    final stored = AppThemePreferenceX.fromStorageKey(
-      prefs.getString(themePreferenceKey),
-    );
+    final stored = AppThemePreferenceX.fromStorageKey(prefs.getString(themePreferenceKey));
     return stored ?? AppThemePreference.system;
   }
 

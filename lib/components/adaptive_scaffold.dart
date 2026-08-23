@@ -99,11 +99,7 @@ class AdaptiveScaffold extends ConsumerWidget {
 }
 
 class _NavDestination {
-  const _NavDestination({
-    required this.path,
-    required this.icon,
-    required this.selectedIcon,
-  });
+  const _NavDestination({required this.path, required this.icon, required this.selectedIcon});
 
   final String path;
   final IconData icon;

@@ -21,11 +21,7 @@ class AstraApp extends ConsumerWidget {
       darkTheme: AppTheme.dark,
       themeMode: themeMode,
       locale: locale.toFlutterLocale(),
-      supportedLocales: const [
-        Locale('zh', 'CN'),
-        Locale('en'),
-        Locale('ja'),
-      ],
+      supportedLocales: const [Locale('zh', 'CN'), Locale('en'), Locale('ja')],
       routerConfig: appRouter,
     );
   }

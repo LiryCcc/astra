@@ -1,8 +1,4 @@
-enum ScreenType {
-  compact,
-  medium,
-  expanded,
-}
+enum ScreenType { compact, medium, expanded }
 
 abstract final class Breakpoints {
   static const double compact = 600;

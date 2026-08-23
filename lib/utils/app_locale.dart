@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum AppLocale {
-  zhCn,
-  en,
-  jp,
-}
+enum AppLocale { zhCn, en, jp }
 
 extension AppLocaleX on AppLocale {
   String get storageKey {

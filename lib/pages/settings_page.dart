@@ -34,18 +34,9 @@ class SettingsPage extends ConsumerWidget {
               },
               child: Column(
                 children: [
-                  RadioListTile<AppThemePreference>(
-                    value: AppThemePreference.light,
-                    title: Text(strings.themeLight),
-                  ),
-                  RadioListTile<AppThemePreference>(
-                    value: AppThemePreference.dark,
-                    title: Text(strings.themeDark),
-                  ),
-                  RadioListTile<AppThemePreference>(
-                    value: AppThemePreference.system,
-                    title: Text(strings.themeSystem),
-                  ),
+                  RadioListTile<AppThemePreference>(value: AppThemePreference.light, title: Text(strings.themeLight)),
+                  RadioListTile<AppThemePreference>(value: AppThemePreference.dark, title: Text(strings.themeDark)),
+                  RadioListTile<AppThemePreference>(value: AppThemePreference.system, title: Text(strings.themeSystem)),
                 ],
               ),
             ),
@@ -60,18 +51,9 @@ class SettingsPage extends ConsumerWidget {
               },
               child: Column(
                 children: [
-                  RadioListTile<AppLocale>(
-                    value: AppLocale.zhCn,
-                    title: Text(strings.langZhCn),
-                  ),
-                  RadioListTile<AppLocale>(
-                    value: AppLocale.en,
-                    title: Text(strings.langEn),
-                  ),
-                  RadioListTile<AppLocale>(
-                    value: AppLocale.jp,
-                    title: Text(strings.langJp),
-                  ),
+                  RadioListTile<AppLocale>(value: AppLocale.zhCn, title: Text(strings.langZhCn)),
+                  RadioListTile<AppLocale>(value: AppLocale.en, title: Text(strings.langEn)),
+                  RadioListTile<AppLocale>(value: AppLocale.jp, title: Text(strings.langJp)),
                 ],
               ),
             ),
@@ -93,9 +75,7 @@ class _SectionHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
       child: Text(
         title,
-        style: Theme.of(context).textTheme.titleSmall?.copyWith(
-          color: Theme.of(context).colorScheme.primary,
-        ),
+        style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Theme.of(context).colorScheme.primary),
       ),
     );
   }

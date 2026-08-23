@@ -16,21 +16,9 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       body: Center(
         child: packageInfoAsync.when(
-          data: (info) => _HomeContent(
-            appTitle: strings.appTitle,
-            version: info.version,
-            theme: theme,
-          ),
-          loading: () => _HomeContent(
-            appTitle: strings.appTitle,
-            version: '1.0.0',
-            theme: theme,
-          ),
-          error: (error, stackTrace) => _HomeContent(
-            appTitle: strings.appTitle,
-            version: '1.0.0',
-            theme: theme,
-          ),
+          data: (info) => _HomeContent(appTitle: strings.appTitle, version: info.version, theme: theme),
+          loading: () => _HomeContent(appTitle: strings.appTitle, version: '1.0.0', theme: theme),
+          error: (error, stackTrace) => _HomeContent(appTitle: strings.appTitle, version: '1.0.0', theme: theme),
         ),
       ),
     );
@@ -38,11 +26,7 @@ class HomePage extends ConsumerWidget {
 }
 
 class _HomeContent extends StatelessWidget {
-  const _HomeContent({
-    required this.appTitle,
-    required this.version,
-    required this.theme,
-  });
+  const _HomeContent({required this.appTitle, required this.version, required this.theme});
 
   final String appTitle;
   final String version;
@@ -56,28 +40,13 @@ class _HomeContent extends StatelessWidget {
         Container(
           width: 96,
           height: 96,
-          decoration: BoxDecoration(
-            color: theme.colorScheme.primaryContainer,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            Icons.north,
-            size: 48,
-            color: theme.colorScheme.onPrimaryContainer,
-          ),
+          decoration: BoxDecoration(color: theme.colorScheme.primaryContainer, shape: BoxShape.circle),
+          child: Icon(Icons.north, size: 48, color: theme.colorScheme.onPrimaryContainer),
         ),
         const SizedBox(height: 16),
-        Text(
-          appTitle,
-          style: theme.textTheme.headlineMedium,
-        ),
+        Text(appTitle, style: theme.textTheme.headlineMedium),
         const SizedBox(height: 8),
-        Text(
-          version,
-          style: theme.textTheme.bodyMedium?.copyWith(
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
+        Text(version, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
       ],
     );
   }

@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ContentContainer extends StatelessWidget {
-  const ContentContainer({
-    required this.maxWidth,
-    required this.child,
-    super.key,
-  });
+  const ContentContainer({required this.maxWidth, required this.child, super.key});
 
   final double maxWidth;
   final Widget child;

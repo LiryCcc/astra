@@ -5,17 +5,11 @@ abstract final class AppTheme {
 
   static ThemeData light = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.light,
-    ),
+    colorScheme: ColorScheme.fromSeed(seedColor: seedColor, brightness: Brightness.light),
   );
 
   static ThemeData dark = ThemeData(
     useMaterial3: true,
-    colorScheme: ColorScheme.fromSeed(
-      seedColor: seedColor,
-      brightness: Brightness.dark,
-    ),
+    colorScheme: ColorScheme.fromSeed(seedColor: seedColor, brightness: Brightness.dark),
   );
 }

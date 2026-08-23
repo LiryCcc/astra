@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum AppThemePreference {
-  light,
-  dark,
-  system,
-}
+enum AppThemePreference { light, dark, system }
 
 extension AppThemePreferenceX on AppThemePreference {
   String get storageKey {

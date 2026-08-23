@@ -16,12 +16,7 @@ void main() {
     final prefs = await SharedPreferences.getInstance();
 
     await tester.pumpWidget(
-      ProviderScope(
-        overrides: [
-          sharedPreferencesProvider.overrideWithValue(prefs),
-        ],
-        child: const AstraApp(),
-      ),
+      ProviderScope(overrides: [sharedPreferencesProvider.overrideWithValue(prefs)], child: const AstraApp()),
     );
     await tester.pumpAndSettle();
 

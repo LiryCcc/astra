@@ -11,18 +11,9 @@ final appRouter = GoRouter(
     ShellRoute(
       builder: (context, state, child) => AdaptiveScaffold(child: child),
       routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) => const HomePage(),
-        ),
-        GoRoute(
-          path: '/todos',
-          builder: (context, state) => const TodosPage(),
-        ),
-        GoRoute(
-          path: '/settings',
-          builder: (context, state) => const SettingsPage(),
-        ),
+        GoRoute(path: '/', builder: (context, state) => const HomePage()),
+        GoRoute(path: '/todos', builder: (context, state) => const TodosPage()),
+        GoRoute(path: '/settings', builder: (context, state) => const SettingsPage()),
       ],
     ),
   ],
