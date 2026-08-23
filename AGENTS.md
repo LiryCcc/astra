@@ -29,6 +29,7 @@ lib/store/locale_store.dart                # 全局状态
 lib/i18n/schema.dart                       # i18n 文案表
 lib/utils/app_router.dart                  # 工具库
 lib/adapters/windows/window_adapter.dart   # 平台适配
+test/store/todo_store_test.dart            # 单元测试
 ```
 
 ### 错误示例
@@ -113,6 +114,51 @@ lib/
 页面私有 Widget 放在该页面同级子目录，例如 `pages/home/widgets/`；**只有**跨页面复用才提升到 `components/`。
 
 页面级临时状态留在 `pages/` 内；**跨页面共享或需持久化的状态** 放入 `store/`。
+
+### 测试文件归档
+
+Flutter/Dart 测试放在项目根目录的 **`test/`**，与 `lib/` 平级，**镜像** `lib/` 的子目录结构。禁止把测试放进 `lib/`。
+
+```
+test/
+├── store/
+│   ├── theme_store_test.dart
+│   ├── locale_store_test.dart
+│   └── todo_store_test.dart
+├── utils/
+│   ├── app_router_test.dart
+│   └── breakpoints_test.dart
+├── components/
+│   └── adaptive_scaffold_test.dart
+├── pages/
+│   ├── home_page_test.dart
+│   ├── settings_page_test.dart
+│   └── todos_page_test.dart
+└── i18n/
+    └── i18n_schema_test.dart      # 校验各语言文件实现 schema 完整性
+```
+
+| 测试类型 | 目录 | 命名 | 运行命令 |
+|----------|------|------|----------|
+| 单元测试 | `test/` | `<源文件名>_test.dart` | `flutter test` |
+| Widget 测试 | `test/`（同上） | `<源文件名>_test.dart` | `flutter test` |
+| 集成测试 | `integration_test/` | `<场景名>_test.dart` | `flutter test integration_test` |
+
+**路径映射规则**：`lib/<路径>/<name>.dart` → `test/<路径>/<name>_test.dart`
+
+```
+lib/store/todo_store.dart       → test/store/todo_store_test.dart
+lib/pages/home_page.dart        → test/pages/home_page_test.dart
+lib/utils/breakpoints.dart      → test/utils/breakpoints_test.dart
+```
+
+**约定**：
+
+- 文件名使用 snake_case，必须以 `_test.dart` 结尾（Dart 官方惯例）
+- 单元测试优先覆盖 `store/`、`utils/`、`i18n/` 中的纯逻辑
+- Widget 测试覆盖 `pages/`、`components/`
+- 测试只 import `lib/` 中的被测代码，**不得** 与 `lib/` 形成反向依赖
+- `integration_test/` 用于跨页面、跨平台的端到端场景，目录结构可扁平，不必完全镜像 `lib/`
 
 ### i18n 规范
 
@@ -221,6 +267,7 @@ import 'todos_page.dart';
 - 全局状态放 `store/`，不得散落在 `pages/` 或 `utils/`；文案放 `i18n/`，禁止 JSON/YAML/ARB
 - 新增 i18n 文案先改 `schema.dart`，再同步三语言文件
 - 新增路由必须同步更新 `pages/` 与路由配置（`utils/app_router.dart`）
+- 新增可测逻辑时同步在 `test/` 镜像路径下添加 `*_test.dart`
 - 发现不符合规范且可安全重命名的旧文件，重构时一并修正并更新引用
 - 添加 import 前检查单向依赖，拒绝引入反向依赖
 - 仅修改与任务相关的文件，保持最小 diff
