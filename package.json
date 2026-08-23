@@ -6,7 +6,9 @@
     "ci:configure-static-link": "node tool/scripts/configure_static_link.js",
     "ci:install-windows-packaging-tools": "node tool/scripts/install_windows_packaging_tools.js",
     "ci:package-ios-ipa": "node tool/scripts/package_ios_ipa.js",
+    "ci:package-macos-artifact": "node tool/scripts/package_macos_artifact.js",
     "ci:package-macos-release": "node tool/scripts/package_macos_release.js",
+    "ci:package-windows-artifact": "node tool/scripts/package_windows_artifact.js",
     "ci:package-windows-release": "node tool/scripts/package_windows_release.js",
     "ci:rename-android-apk": "node tool/scripts/rename_android_apk.js",
     "format": "prettier . --write --cache"

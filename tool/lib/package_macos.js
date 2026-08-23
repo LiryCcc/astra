@@ -4,12 +4,11 @@ import {
   existsSync,
   mkdirSync,
   readFileSync,
-  readdirSync,
   rmSync,
   symlinkSync,
   writeFileSync
 } from 'node:fs';
-import { join } from 'node:path';
+import { basename, join } from 'node:path';
 
 import { run } from './process_utils.js';
 
@@ -25,14 +24,12 @@ open "$DIR/astra.app"
 `;
 
 /**
- * Package macOS release artifacts: portable zip, DMG, and standalone `.run`.
- *
- * @param {PackageReleaseOptions} options
- * @returns {void}
+ * @param {string} workspace
+ * @returns {{ appDir: string, appPath: string }}
  */
-export const packageMacosRelease = ({ version, workspace }) => {
+const resolveMacosAppBundle = (workspace) => {
   if (process.platform !== 'darwin') {
-    throw new Error('package_macos_release is only supported on macOS');
+    throw new Error('macOS packaging is only supported on macOS');
   }
 
   const appDir = join(workspace, 'build/macos/Build/Products/Release');
@@ -42,45 +39,91 @@ export const packageMacosRelease = ({ version, workspace }) => {
     throw new Error(`App bundle not found: ${appPath}`);
   }
 
+  return { appDir, appPath };
+};
+
+/**
+ * @param {PackageReleaseOptions} options
+ * @returns {void}
+ */
+export const packageMacosZip = ({ version, workspace }) => {
+  const { appDir } = resolveMacosAppBundle(workspace);
+  const output = join(workspace, `astra-macos-${version}-portable.zip`);
+
   console.log('Creating portable zip...');
-  run('zip', ['-yr', join(workspace, `astra-macos-${version}-portable.zip`), 'astra.app'], {
-    cwd: appDir
-  });
+  run('zip', ['-yr', output, 'astra.app'], { cwd: appDir });
+  console.log(`Created ${basename(output)}`);
+};
+
+/**
+ * @param {PackageReleaseOptions} options
+ * @returns {void}
+ */
+export const packageMacosDmg = ({ version, workspace }) => {
+  const { appDir } = resolveMacosAppBundle(workspace);
+  const output = join(workspace, `astra-macos-${version}.dmg`);
+  const dmgStaging = join(workspace, '.dmg-staging');
 
   console.log('Creating DMG installer...');
-  const dmgStaging = join(workspace, '.dmg-staging');
   rmSync(dmgStaging, { recursive: true, force: true });
   mkdirSync(dmgStaging, { recursive: true });
   run('cp', ['-R', 'astra.app', dmgStaging], { cwd: appDir });
   symlinkSync('/Applications', join(dmgStaging, 'Applications'));
-  run('hdiutil', [
-    'create',
-    '-volname',
-    'Astra',
-    '-srcfolder',
-    dmgStaging,
-    '-ov',
-    '-format',
-    'UDZO',
-    join(workspace, `astra-macos-${version}.dmg`)
-  ]);
+  run('hdiutil', ['create', '-volname', 'Astra', '-srcfolder', dmgStaging, '-ov', '-format', 'UDZO', output]);
   rmSync(dmgStaging, { recursive: true, force: true });
+  console.log(`Created ${basename(output)}`);
+};
+
+/**
+ * @param {PackageReleaseOptions} options
+ * @returns {void}
+ */
+export const packageMacosStandalone = ({ version, workspace }) => {
+  const { appDir } = resolveMacosAppBundle(workspace);
+  const tarPath = join(workspace, `.astra-macos-${version}.tar.gz`);
+  const output = join(workspace, `astra-macos-${version}-standalone.run`);
 
   console.log('Creating standalone self-extracting archive...');
-  const tarPath = join(workspace, `.astra-macos-${version}.tar.gz`);
-  const standalone = join(workspace, `astra-macos-${version}-standalone.run`);
   run('tar', ['czf', tarPath, 'astra.app'], { cwd: appDir });
 
-  writeFileSync(standalone, STANDALONE_HEADER, { encoding: 'utf8' });
-  chmodSync(standalone, 0o755);
-  appendFileSync(standalone, '__ARCHIVE_BELOW__\n');
-  appendFileSync(standalone, readFileSync(tarPath));
+  writeFileSync(output, STANDALONE_HEADER, { encoding: 'utf8' });
+  chmodSync(output, 0o755);
+  appendFileSync(output, '__ARCHIVE_BELOW__\n');
+  appendFileSync(output, readFileSync(tarPath));
   rmSync(tarPath, { force: true });
+  console.log(`Created ${basename(output)}`);
+};
 
-  console.log('macOS artifacts:');
-  for (const entry of readdirSync(workspace)) {
-    if (entry.startsWith(`astra-macos-${version}`)) {
-      console.log(`  ${entry}`);
-    }
+/** @typedef {'zip' | 'dmg' | 'standalone'} MacosPackageTarget */
+
+/**
+ * @param {PackageReleaseOptions & { target: MacosPackageTarget }} options
+ * @returns {void}
+ */
+export const packageMacosArtifact = ({ version, workspace, target }) => {
+  switch (target) {
+    case 'zip':
+      packageMacosZip({ version, workspace });
+      return;
+    case 'dmg':
+      packageMacosDmg({ version, workspace });
+      return;
+    case 'standalone':
+      packageMacosStandalone({ version, workspace });
+      return;
+    default:
+      throw new Error(`Unsupported macOS package target: ${target}`);
   }
+};
+
+/**
+ * Package all macOS release artifacts.
+ *
+ * @param {PackageReleaseOptions} options
+ * @returns {void}
+ */
+export const packageMacosRelease = ({ version, workspace }) => {
+  packageMacosZip({ version, workspace });
+  packageMacosDmg({ version, workspace });
+  packageMacosStandalone({ version, workspace });
 };

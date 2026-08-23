@@ -17,6 +17,8 @@ env:
   FLUTTER_VERSION: '3.47.1'
   NODE_VERSION: '24'
   RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
+  ASTRA_WORKSPACE: ${{ github.workspace }}
+  ASTRA_RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
 
 permissions:
   contents: read
@@ -58,13 +60,10 @@ jobs:
       - name: Run checks
         run: pnpm check
 
-  build-android:
+  android-apk:
     name: Android APK
     needs: check
     runs-on: ubuntu-latest
-    env:
-      ASTRA_WORKSPACE: ${{ github.workspace }}
-      ASTRA_RELEASE_TAG: ${{ env.RELEASE_TAG }}
     permissions:
       contents: read
       actions: write
@@ -104,17 +103,14 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: android
+          name: android-apk
           path: astra-android-*.apk
           if-no-files-found: error
 
-  build-ios:
-    name: iOS unsigned IPA
+  ios-ipa:
+    name: iOS IPA
     needs: check
     runs-on: macos-latest
-    env:
-      ASTRA_WORKSPACE: ${{ github.workspace }}
-      ASTRA_RELEASE_TAG: ${{ env.RELEASE_TAG }}
     permissions:
       contents: read
       actions: write
@@ -157,17 +153,222 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios
+          name: ios-ipa
           path: astra-ios-unsigned-*.ipa
           if-no-files-found: error
 
-  build-windows:
-    name: Windows
+  macos-zip:
+    name: macOS ZIP
+    needs: check
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Configure static linking
+        run: pnpm ci:configure-static-link
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Package portable zip
+        env:
+          ASTRA_PACKAGE_TARGET: zip
+        run: pnpm ci:package-macos-artifact
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-zip
+          path: astra-macos-*-portable.zip
+          if-no-files-found: error
+
+  macos-dmg:
+    name: macOS DMG
+    needs: check
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Configure static linking
+        run: pnpm ci:configure-static-link
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Package DMG
+        env:
+          ASTRA_PACKAGE_TARGET: dmg
+        run: pnpm ci:package-macos-artifact
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-dmg
+          path: astra-macos-*.dmg
+          if-no-files-found: error
+
+  macos-standalone:
+    name: macOS standalone
+    needs: check
+    runs-on: macos-latest
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Configure static linking
+        run: pnpm ci:configure-static-link
+
+      - name: Build macOS
+        run: flutter build macos --release
+
+      - name: Package standalone
+        env:
+          ASTRA_PACKAGE_TARGET: standalone
+        run: pnpm ci:package-macos-artifact
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-standalone
+          path: astra-macos-*-standalone.run
+          if-no-files-found: error
+
+  windows-zip:
+    name: Windows ZIP
     needs: check
     runs-on: windows-latest
-    env:
-      ASTRA_WORKSPACE: ${{ github.workspace }}
-      ASTRA_RELEASE_TAG: ${{ env.RELEASE_TAG }}
+    permissions:
+      contents: read
+      actions: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
+
+      - name: Install Node dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Configure static linking
+        run: pnpm ci:configure-static-link
+
+      - name: Build Windows
+        run: flutter build windows --release
+
+      - name: Package portable zip
+        env:
+          ASTRA_PACKAGE_TARGET: zip
+        run: pnpm ci:package-windows-artifact
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-zip
+          path: astra-windows-*-portable.zip
+          if-no-files-found: error
+
+  windows-setup:
+    name: Windows installer
+    needs: check
+    runs-on: windows-latest
     permissions:
       contents: read
       actions: write
@@ -207,26 +408,22 @@ jobs:
       - name: Build Windows
         run: flutter build windows --release
 
-      - name: Package artifacts
-        run: pnpm ci:package-windows-release
+      - name: Package installer
+        env:
+          ASTRA_PACKAGE_TARGET: setup
+        run: pnpm ci:package-windows-artifact
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: windows
-          path: |
-            astra-windows-*-portable.zip
-            astra-windows-*-setup.exe
-            astra-windows-*-standalone.exe
+          name: windows-setup
+          path: astra-windows-*-setup.exe
           if-no-files-found: error
 
-  build-macos:
-    name: macOS
+  windows-standalone:
+    name: Windows standalone
     needs: check
-    runs-on: macos-latest
-    env:
-      ASTRA_WORKSPACE: ${{ github.workspace }}
-      ASTRA_RELEASE_TAG: ${{ env.RELEASE_TAG }}
+    runs-on: windows-latest
     permissions:
       contents: read
       actions: write
@@ -257,32 +454,50 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Install packaging tools
+        run: pnpm ci:install-windows-packaging-tools
+
       - name: Configure static linking
         run: pnpm ci:configure-static-link
 
-      - name: Build macOS
-        run: flutter build macos --release
+      - name: Build Windows
+        run: flutter build windows --release
 
-      - name: Package artifacts
-        run: pnpm ci:package-macos-release
+      - name: Package standalone
+        env:
+          ASTRA_PACKAGE_TARGET: standalone
+        run: pnpm ci:package-windows-artifact
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos
-          path: |
-            astra-macos-*-portable.zip
-            astra-macos-*.dmg
-            astra-macos-*-standalone.run
+          name: windows-standalone
+          path: astra-windows-*-standalone.exe
           if-no-files-found: error
 
   release:
     name: Publish GitHub Release
     needs:
-      - build-android
-      - build-ios
-      - build-windows
-      - build-macos
+      - android-apk
+      - ios-ipa
+      - macos-zip
+      - macos-dmg
+      - macos-standalone
+      - windows-zip
+      - windows-setup
+      - windows-standalone
+    if: >-
+      always() &&
+      (
+        needs.android-apk.result == 'success' ||
+        needs.ios-ipa.result == 'success' ||
+        needs.macos-zip.result == 'success' ||
+        needs.macos-dmg.result == 'success' ||
+        needs.macos-standalone.result == 'success' ||
+        needs.windows-zip.result == 'success' ||
+        needs.windows-setup.result == 'success' ||
+        needs.windows-standalone.result == 'success'
+      )
     runs-on: ubuntu-latest
     permissions:
       contents: write

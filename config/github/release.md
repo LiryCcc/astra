@@ -5,7 +5,7 @@
 | 文件                                                                 | 说明                          |
 | -------------------------------------------------------------------- | ----------------------------- |
 | [.github/workflows/ci.yml](../../.github/workflows/ci.yml)           | 推送 / PR 时代码检查          |
-| [.github/workflows/release.yml](../../.github/workflows/release.yml) | 四端打包并发布 GitHub Release |
+| [.github/workflows/release.yml](../../.github/workflows/release.yml) | 八端独立打包；任意成功即发布 GitHub Release |
 
 ## CI 检查（`ci.yml`）
 
@@ -25,9 +25,22 @@ CI 工作流同样调用 `pnpm check`。
 
 ## Release 构建（`release.yml`）
 
-**先执行与 CI 相同的代码质量检查**，通过后再并行构建四端产物并上传 GitHub Release。
+**先执行与 CI 相同的代码质量检查**，通过后再 **并行** 构建八个独立 job；**任意一个 job 成功** 即上传对应产物并创建 GitHub Release（仅包含本次成功的附件）。
 
-检查步骤：format → analyze → test → build (android / ios / windows / macos) → release
+检查步骤：format → analyze → test → 八 job 并行 build + package → release（合并已成功 job 的产物）
+
+| Job                  | Runner           | 产物                                       |
+| -------------------- | ---------------- | ------------------------------------------ |
+| `android-apk`        | `ubuntu-latest`  | `astra-android-<version>.apk`              |
+| `ios-ipa`            | `macos-latest`   | `astra-ios-unsigned-<version>.ipa`         |
+| `macos-zip`          | `macos-latest`   | `astra-macos-<version>-portable.zip`       |
+| `macos-dmg`          | `macos-latest`   | `astra-macos-<version>.dmg`                |
+| `macos-standalone`   | `macos-latest`   | `astra-macos-<version>-standalone.run`     |
+| `windows-zip`        | `windows-latest` | `astra-windows-<version>-portable.zip`     |
+| `windows-setup`      | `windows-latest` | `astra-windows-<version>-setup.exe`        |
+| `windows-standalone` | `windows-latest` | `astra-windows-<version>-standalone.exe`   |
+
+单个 job 失败不会阻断其他 job；`release` job 在 **至少一个** 构建 job 成功时运行，并仅上传已成功 job 的 artifact。
 
 CI / Release 脚本使用 **Node.js ESM（`.js`）**，分两类：
 
@@ -43,8 +56,12 @@ CI / Release 脚本使用 **Node.js ESM（`.js`）**，分两类：
 | `pnpm ci:package-ios-ipa`                 | `tool/scripts/package_ios_ipa.js`                 | 打包未签名 iOS IPA            |
 | `pnpm ci:install-windows-packaging-tools` | `tool/scripts/install_windows_packaging_tools.js` | 安装并校验 Inno Setup / 7-Zip |
 | `pnpm ci:configure-static-link`           | `tool/scripts/configure_static_link.js`           | 校验静态链接配置              |
-| `pnpm ci:package-windows-release`         | `tool/scripts/package_windows_release.js`         | Windows 三件套打包            |
-| `pnpm ci:package-macos-release`           | `tool/scripts/package_macos_release.js`           | macOS 三件套打包              |
+| `pnpm ci:package-macos-artifact`          | `tool/scripts/package_macos_artifact.js`          | macOS 单产物（zip / dmg / standalone） |
+| `pnpm ci:package-macos-release`           | `tool/scripts/package_macos_release.js`           | macOS 三件套打包（本地）               |
+| `pnpm ci:package-windows-artifact`        | `tool/scripts/package_windows_artifact.js`        | Windows 单产物（zip / setup / standalone） |
+| `pnpm ci:package-windows-release`         | `tool/scripts/package_windows_release.js`         | Windows 三件套打包（本地）             |
+
+CI 中通过环境变量 `ASTRA_PACKAGE_TARGET` 指定单产物类型（`zip` / `dmg` / `standalone` 或 `zip` / `setup` / `standalone`）；`ASTRA_WORKSPACE` 与 `ASTRA_RELEASE_TAG` 由工作流注入。
 
 ## 触发方式
 
@@ -90,13 +107,7 @@ Flutter 引擎（`flutter_windows.dll` / `Frameworks/`）无法静态链接进�
 
 ## Runner 分配
 
-| Job          | Runner           |
-| ------------ | ---------------- |
-| Android      | `ubuntu-latest`  |
-| iOS          | `macos-latest`   |
-| Windows      | `windows-latest` |
-| macOS        | `macos-latest`   |
-| Release 上传 | `ubuntu-latest`  |
+见上文 **八个独立 job** 表；`release` 上传 job 运行于 `ubuntu-latest`。
 
 ## iOS 未签名 IPA
 
