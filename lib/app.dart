@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app_router.dart';
+import 'components/fps_overlay.dart';
 import 'store/locale_store.dart';
 import 'store/theme_store.dart';
 import 'utils/app_locale.dart';
@@ -28,6 +29,12 @@ class AstraApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
+      builder: (context, child) {
+        if (child == null) {
+          return const SizedBox.shrink();
+        }
+        return FpsOverlay(child: child);
+      },
       routerConfig: appRouter,
     );
   }
