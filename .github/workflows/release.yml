@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    tags:
-      - v*
   workflow_dispatch:
     inputs:
       tag:
@@ -12,12 +10,12 @@ on:
         type: string
 
 concurrency:
-  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref }}
+  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
   cancel-in-progress: true
 
 env:
   FLUTTER_VERSION: "3.47.1"
-  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
 
 permissions:
   contents: write
@@ -30,7 +28,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -47,7 +45,11 @@ jobs:
 
       - name: Rename artifact
         run: |
-          VERSION="${RELEASE_TAG#v}"
+          if [[ "$RELEASE_TAG" == v* ]]; then
+            VERSION="${RELEASE_TAG#v}"
+          else
+            VERSION="$RELEASE_TAG"
+          fi
           cp build/app/outputs/flutter-apk/app-release.apk "astra-android-${VERSION}.apk"
 
       - name: Upload artifact
@@ -64,7 +66,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -84,7 +86,11 @@ jobs:
 
       - name: Package unsigned IPA
         run: |
-          VERSION="${RELEASE_TAG#v}"
+          if [[ "$RELEASE_TAG" == v* ]]; then
+            VERSION="${RELEASE_TAG#v}"
+          else
+            VERSION="$RELEASE_TAG"
+          fi
           cd build/ios/iphoneos
           mkdir -p Payload
           cp -r Runner.app Payload/
@@ -104,7 +110,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -122,7 +128,12 @@ jobs:
       - name: Package artifact
         shell: pwsh
         run: |
-          $version = "${{ env.RELEASE_TAG }}".Substring(1)
+          $tag = "${{ env.RELEASE_TAG }}"
+          if ($tag.StartsWith('v')) {
+            $version = $tag.Substring(1)
+          } else {
+            $version = $tag
+          }
           Compress-Archive -Path "build/windows/x64/runner/Release/*" -DestinationPath "astra-windows-$version.zip"
 
       - name: Upload artifact
@@ -139,7 +150,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.ref }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && format('refs/tags/{0}', inputs.tag) || github.sha }}
 
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
@@ -156,7 +167,11 @@ jobs:
 
       - name: Package artifact
         run: |
-          VERSION="${RELEASE_TAG#v}"
+          if [[ "$RELEASE_TAG" == v* ]]; then
+            VERSION="${RELEASE_TAG#v}"
+          else
+            VERSION="$RELEASE_TAG"
+          fi
           cd build/macos/Build/Products/Release
           zip -r "${GITHUB_WORKSPACE}/astra-macos-${VERSION}.zip" astra.app
 
@@ -190,6 +205,7 @@ jobs:
         with:
           tag_name: ${{ env.RELEASE_TAG }}
           name: Astra ${{ env.RELEASE_TAG }}
+          target_commitish: ${{ github.sha }}
           generate_release_notes: true
           files: dist/*
         env:
