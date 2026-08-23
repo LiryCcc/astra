@@ -3,7 +3,7 @@
 #endif
 
 #ifndef SourceDir
-  #define SourceDir "build\windows\x64\runner\Release"
+  #define SourceDir "build/windows/x64/runner/Release"
 #endif
 
 #ifndef OutputDir

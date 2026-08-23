@@ -49,14 +49,8 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed --line-length=120 .
-
-      - name: Analyze
-        run: dart analyze --fatal-infos
-
-      - name: Test
-        run: flutter test
+      - name: Run checks
+        run: bash tool/check.sh
 
   build-android:
     name: Android APK
@@ -85,13 +79,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Rename artifact
-        run: |
-          if [[ "$RELEASE_TAG" == v* ]]; then
-            VERSION="${RELEASE_TAG#v}"
-          else
-            VERSION="$RELEASE_TAG"
-          fi
-          cp build/app/outputs/flutter-apk/app-release.apk "astra-android-${VERSION}.apk"
+        run: bash tool/ci/rename_android_apk.sh "${{ env.RELEASE_TAG }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -130,16 +118,7 @@ jobs:
         run: flutter build ios --release --no-codesign
 
       - name: Package unsigned IPA
-        run: |
-          if [[ "$RELEASE_TAG" == v* ]]; then
-            VERSION="${RELEASE_TAG#v}"
-          else
-            VERSION="$RELEASE_TAG"
-          fi
-          cd build/ios/iphoneos
-          mkdir -p Payload
-          cp -r Runner.app Payload/
-          zip -r "${GITHUB_WORKSPACE}/astra-ios-unsigned-${VERSION}.ipa" Payload
+        run: bash tool/ci/package_ios_ipa.sh "${{ env.RELEASE_TAG }}" "${{ github.workspace }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -172,29 +151,19 @@ jobs:
         run: flutter pub get
 
       - name: Install packaging tools
-        run: choco install innosetup 7zip -y
+        shell: pwsh
+        run: tool/ci/install_windows_packaging_tools.ps1
 
       - name: Configure static linking
         shell: pwsh
-        run: |
-          & "${{ github.workspace }}/tool/configure_static_link.ps1" `
-            -Workspace "${{ github.workspace }}"
+        run: tool/configure_static_link.ps1 -Workspace "${{ github.workspace }}"
 
       - name: Build Windows
         run: flutter build windows --release
 
       - name: Package artifacts
         shell: pwsh
-        run: |
-          $tag = "${{ env.RELEASE_TAG }}"
-          if ($tag.StartsWith('v')) {
-            $version = $tag.Substring(1)
-          } else {
-            $version = $tag
-          }
-          & "${{ github.workspace }}/tool/package_windows_release.ps1" `
-            -Version $version `
-            -Workspace "${{ github.workspace }}"
+        run: tool/ci/package_windows_release.ps1 -ReleaseTag "${{ env.RELEASE_TAG }}" -Workspace "${{ github.workspace }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -236,13 +205,7 @@ jobs:
         run: flutter build macos --release
 
       - name: Package artifacts
-        run: |
-          if [[ "$RELEASE_TAG" == v* ]]; then
-            VERSION="${RELEASE_TAG#v}"
-          else
-            VERSION="$RELEASE_TAG"
-          fi
-          bash tool/package_macos_release.sh "$VERSION" "$GITHUB_WORKSPACE"
+        run: bash tool/ci/package_macos_release.sh "${{ env.RELEASE_TAG }}" "${{ github.workspace }}"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

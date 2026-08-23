@@ -21,11 +21,24 @@
 .\tool\check.ps1
 ```
 
+CI 工作流调用 `bash tool/check.sh`。
+
 ## Release 构建（`release.yml`）
 
 **先执行与 CI 相同的代码质量检查**，通过后再并行构建四端产物并上传 GitHub Release。
 
 检查步骤：format → analyze → test → build (android / ios / windows / macos) → release
+
+CI / Release 中的长脚本统一放在 [`tool/ci/`](../../tool/ci/)，工作流仅调用脚本入口：
+
+| 脚本                                          | 用途                                                          |
+| --------------------------------------------- | ------------------------------------------------------------- |
+| `tool/ci/resolve_release_version.sh` / `.ps1` | 将 tag 或 commit SHA 解析为产物版本号                         |
+| `tool/ci/rename_android_apk.sh`               | 重命名 Android APK                                            |
+| `tool/ci/package_ios_ipa.sh`                  | 打包未签名 iOS IPA                                            |
+| `tool/ci/install_windows_packaging_tools.ps1` | 安装并校验 Inno Setup / 7-Zip                                 |
+| `tool/ci/package_windows_release.ps1`         | Windows 三件套打包（调用 `tool/package_windows_release.ps1`） |
+| `tool/ci/package_macos_release.sh`            | macOS 三件套打包（调用 `tool/package_macos_release.sh`）      |
 
 ## 触发方式
 

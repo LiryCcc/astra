@@ -39,11 +39,5 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Check formatting
-        run: dart format --output=none --set-exit-if-changed --line-length=120 .
-
-      - name: Analyze
-        run: dart analyze --fatal-infos
-
-      - name: Test
-        run: flutter test
+      - name: Run checks
+        run: bash tool/check.sh
