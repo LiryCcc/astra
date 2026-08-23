@@ -20,7 +20,7 @@
 
 **任务**：
 
-1. `flutter create --org com.astra --platforms=android,ios,windows,macos`
+1. `flutter create --org org.liry --platforms=android,ios,windows,macos`
 2. 添加 pubspec 依赖（见 [依赖清单](../technical/08-dependencies.md)）
 3. 搭建目录结构（见 [架构与目录](../technical/01-architecture.md)）
 4. 配置 `analysis_options.yaml`

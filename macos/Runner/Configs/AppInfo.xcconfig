@@ -8,7 +8,7 @@
 PRODUCT_NAME = astra
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.astra.astra
+PRODUCT_BUNDLE_IDENTIFIER = org.liry.astra
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 com.astra. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 org.liry. All rights reserved.

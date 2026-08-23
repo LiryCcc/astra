@@ -50,7 +50,7 @@ dev_dependencies:
 ## 初始化命令
 
 ```bash
-flutter create --org com.astra --platforms=android,ios,windows,macos .
+flutter create --org org.liry --platforms=android,ios,windows,macos .
 .\tool\flutter_china.ps1 pub add flutter_riverpod go_router shared_preferences package_info_plus
 .\tool\flutter_china.ps1 pub add dev:flutter_lints
 .\tool\flutter_china.ps1 pub get

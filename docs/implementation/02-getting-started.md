@@ -16,7 +16,7 @@ flutter doctor -v
 在仓库根目录执行：
 
 ```bash
-flutter create --org com.astra --platforms=android,ios,windows,macos .
+flutter create --org org.liry --platforms=android,ios,windows,macos .
 ```
 
 若目录非空，可在子目录创建后移动，或使用 `.` 在当前 `astra` 目录初始化。
