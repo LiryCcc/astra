@@ -50,6 +50,23 @@ flutter pub get
 
 详见 [ios/spm.md](ios/spm.md)。
 
+## Flutter / Dart 依赖镜像
+
+| 文件 | 说明 |
+|------|------|
+| [flutter/mirrors.md](flutter/mirrors.md) | Pub / Flutter Storage 国内镜像说明 |
+| [flutter/mirror.env](flutter/mirror.env) | 环境变量模板 |
+| [../tool/flutter_china.ps1](../tool/flutter_china.ps1) | Windows 镜像包装脚本 |
+| [../tool/flutter_china.sh](../tool/flutter_china.sh) | macOS / Linux 镜像包装脚本 |
+
+国内开发安装依赖：
+
+```powershell
+.\tool\flutter_china.ps1 pub get
+```
+
+`.vscode/settings.json` 已配置 `dart.env` 与终端环境变量，IDE 内 `pub get` 同样走镜像。
+
 ## 应用配置
 
 [flutter/project_config.yaml](flutter/project_config.yaml) 汇总移动端最低版本与镜像策略，供 CI / 脚本读取。

@@ -48,9 +48,31 @@ platform :ios, '18.0'
 
 ## 3. 安装依赖
 
+国内网络建议使用镜像脚本（见 [Flutter 镜像配置](../../config/flutter/mirrors.md)）：
+
+```powershell
+# Windows
+.\tool\flutter_china.ps1 pub get
+```
+
 ```bash
-flutter pub add flutter_riverpod riverpod_annotation go_router shared_preferences hive hive_flutter package_info_plus
-flutter pub add dev:build_runner dev:riverpod_generator dev:hive_generator dev:flutter_lints
+# macOS / Linux
+./tool/flutter_china.sh pub get
+```
+
+或手动设置环境变量后执行 `flutter pub get`：
+
+```bash
+# TUNA 镜像
+export PUB_HOSTED_URL=https://mirrors.tuna.tsinghua.edu.cn/dart-pub
+export FLUTTER_STORAGE_BASE_URL=https://mirrors.tuna.tsinghua.edu.cn/flutter
+flutter pub get
+```
+
+添加项目依赖（若尚未添加）：
+
+```bash
+flutter pub add flutter_riverpod go_router shared_preferences package_info_plus
 flutter pub get
 ```
 

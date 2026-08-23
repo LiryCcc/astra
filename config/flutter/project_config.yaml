@@ -15,6 +15,21 @@ android:
   gradle_distribution_mirror: tencent
   gradle_distribution_url_template: https://mirrors.cloud.tencent.com/gradle/gradle-{version}-all.zip
 
+flutter:
+  pub_mirrors:
+    primary:
+      name: tuna
+      pub_hosted_url: https://mirrors.tuna.tsinghua.edu.cn/dart-pub
+      flutter_storage_base_url: https://mirrors.tuna.tsinghua.edu.cn/flutter
+    fallback:
+      name: cfug
+      pub_hosted_url: https://pub.flutter-io.cn
+      flutter_storage_base_url: https://storage.flutter-io.cn
+  mirror_env_file: config/flutter/mirror.env
+  mirror_scripts:
+    windows: tool/flutter_china.ps1
+    unix: tool/flutter_china.sh
+
 ios:
   swift_package_manager: true
   minimum_version: "18.0"
