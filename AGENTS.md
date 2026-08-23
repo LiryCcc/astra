@@ -257,7 +257,7 @@ import 'todos_page.dart';
 
 - 语言：Dart 3.x + Flutter；Material Design 3
 - 平台：Android、iOS、Windows、macOS
-- 格式化与 Lint：见 `docs/technical/09-code-quality.md`，提交前运行 `tool/check.ps1` 或 `tool/check.sh`
+- 格式化与 Lint：见 `docs/technical/09-code-quality.md`，提交前运行 `pnpm check`
 - 需求 / 技术 / 实施文档：见 `docs/README.md`
 
 ## Agent 行为要求

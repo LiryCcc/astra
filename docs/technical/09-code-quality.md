@@ -38,17 +38,18 @@ dart format --line-length=120 .
 dart analyze --fatal-infos
 
 # CI 检查：格式 + lint 一并验证
-./tool/check.sh      # macOS / Linux
-.\tool\check.ps1     # Windows
+pnpm check
 ```
 
 ### 脚本说明
 
-| 脚本                            | 说明                                         |
-| ------------------------------- | -------------------------------------------- |
-| `tool/format.ps1` / `format.sh` | 格式化所有 Dart 文件                         |
-| `tool/lint.ps1` / `lint.sh`     | 运行 `dart analyze`                          |
-| `tool/check.ps1` / `check.sh`   | 格式检查 + analyze + `flutter test`（CI 用） |
+| 脚本 / 命令                            | 说明                                         |
+| -------------------------------------- | -------------------------------------------- |
+| `tool/format.ps1` / `format.sh`        | 格式化所有 Dart 文件                         |
+| `tool/lint.ps1` / `lint.sh`            | 运行 `dart analyze`                          |
+| `pnpm check` → `tool/scripts/check.js` | 格式检查 + analyze + `flutter test`（CI 用） |
+
+CI / Release 工具脚本为 Node.js ESM，见 [`tool/lib/`](../../tool/lib/)（工具函数）与 [`tool/scripts/`](../../tool/scripts/)（入口）。
 
 ## Linter 规则
 
@@ -75,5 +76,5 @@ dart analyze --fatal-infos
 ## 推荐工作流
 
 1. 开发时：保存自动格式化
-2. 提交前：运行 `.\tool\check.ps1`
-3. CI：在 pipeline 中执行 `tool/check.sh`
+2. 提交前：运行 `pnpm check`
+3. CI：在 pipeline 中执行 `pnpm check`

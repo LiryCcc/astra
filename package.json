@@ -1,10 +1,18 @@
 {
   "type": "module",
   "scripts": {
+    "check": "node tool/scripts/check.js",
     "check-format": "prettier . --check --cache",
+    "ci:configure-static-link": "node tool/scripts/configure_static_link.js",
+    "ci:install-windows-packaging-tools": "node tool/scripts/install_windows_packaging_tools.js",
+    "ci:package-ios-ipa": "node tool/scripts/package_ios_ipa.js",
+    "ci:package-macos-release": "node tool/scripts/package_macos_release.js",
+    "ci:package-windows-release": "node tool/scripts/package_windows_release.js",
+    "ci:rename-android-apk": "node tool/scripts/rename_android_apk.js",
     "format": "prettier . --write --cache"
   },
   "devDependencies": {
+    "@types/node": "^24.13.3",
     "prettier": "^3.9.6",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^3.0.2",

@@ -17,11 +17,11 @@
 
 本地等价命令：
 
-```powershell
-.\tool\check.ps1
+```bash
+pnpm check
 ```
 
-CI 工作流调用 `bash tool/check.sh`。
+CI 工作流同样调用 `pnpm check`。
 
 ## Release 构建（`release.yml`）
 
@@ -29,16 +29,22 @@ CI 工作流调用 `bash tool/check.sh`。
 
 检查步骤：format → analyze → test → build (android / ios / windows / macos) → release
 
-CI / Release 中的长脚本统一放在 [`tool/ci/`](../../tool/ci/)，工作流仅调用脚本入口：
+CI / Release 脚本使用 **Node.js ESM（`.js`）**，分两类：
 
-| 脚本                                          | 用途                                                          |
-| --------------------------------------------- | ------------------------------------------------------------- |
-| `tool/ci/resolve_release_version.sh` / `.ps1` | 将 tag 或 commit SHA 解析为产物版本号                         |
-| `tool/ci/rename_android_apk.sh`               | 重命名 Android APK                                            |
-| `tool/ci/package_ios_ipa.sh`                  | 打包未签名 iOS IPA                                            |
-| `tool/ci/install_windows_packaging_tools.ps1` | 安装并校验 Inno Setup / 7-Zip                                 |
-| `tool/ci/package_windows_release.ps1`         | Windows 三件套打包（调用 `tool/package_windows_release.ps1`） |
-| `tool/ci/package_macos_release.sh`            | macOS 三件套打包（调用 `tool/package_macos_release.sh`）      |
+| 目录                                   | 职责                                 |
+| -------------------------------------- | ------------------------------------ |
+| [`tool/lib/`](../../tool/lib/)         | 仅导出工具函数（`export const ...`） |
+| [`tool/scripts/`](../../tool/scripts/) | 可执行入口，`main()` 中编排逻辑      |
+
+| `pnpm` 命令                               | 入口脚本                                          | 用途                          |
+| ----------------------------------------- | ------------------------------------------------- | ----------------------------- |
+| `pnpm check`                              | `tool/scripts/check.js`                           | 格式 + analyze + test         |
+| `pnpm ci:rename-android-apk`              | `tool/scripts/rename_android_apk.js`              | 重命名 Android APK            |
+| `pnpm ci:package-ios-ipa`                 | `tool/scripts/package_ios_ipa.js`                 | 打包未签名 iOS IPA            |
+| `pnpm ci:install-windows-packaging-tools` | `tool/scripts/install_windows_packaging_tools.js` | 安装并校验 Inno Setup / 7-Zip |
+| `pnpm ci:configure-static-link`           | `tool/scripts/configure_static_link.js`           | 校验静态链接配置              |
+| `pnpm ci:package-windows-release`         | `tool/scripts/package_windows_release.js`         | Windows 三件套打包            |
+| `pnpm ci:package-macos-release`           | `tool/scripts/package_macos_release.js`           | macOS 三件套打包              |
 
 ## 触发方式
 

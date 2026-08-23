@@ -46,13 +46,13 @@
 
 ### Windows
 
-| 类别     | 工具                              | 版本 / 说明                           |
-| -------- | --------------------------------- | ------------------------------------- |
-| 构建系统 | CMake                             | `>= 3.14`                             |
-| 编译器   | MSVC `cl.exe`                     | C++17（`cxx_std_17`）                 |
-| 构建后端 | MSBuild                           | 经 Visual Studio                      |
-| 打包     | Inno Setup 6、7-Zip               | 见 `tool/package_windows_release.ps1` |
-| 构建命令 | `flutter build windows --release` |                                       |
+| 类别     | 工具                              | 版本 / 说明                      |
+| -------- | --------------------------------- | -------------------------------- |
+| 构建系统 | CMake                             | `>= 3.14`                        |
+| 编译器   | MSVC `cl.exe`                     | C++17（`cxx_std_17`）            |
+| 构建后端 | MSBuild                           | 经 Visual Studio                 |
+| 打包     | Inno Setup 6、7-Zip               | 见 `tool/lib/package_windows.js` |
+| 构建命令 | `flutter build windows --release` |                                  |
 
 ### macOS
 
@@ -62,7 +62,7 @@
 | 语言       | Swift             | 5.0                                |
 | C/C++ 编译 | Clang / LLVM      | `gnu++14`，`libc++`                |
 | 最低版本   | macOS             | 12.0（`MACOSX_DEPLOYMENT_TARGET`） |
-| 打包       | zip、hdiutil、tar | 见 `tool/package_macos_release.sh` |
+| 打包       | zip、hdiutil、tar | 见 `tool/lib/package_macos.js`     |
 
 ---
 

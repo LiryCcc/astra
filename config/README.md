@@ -55,7 +55,7 @@ flutter pub get
 | 项       | 配置                                                        |
 | -------- | ----------------------------------------------------------- |
 | C 运行时 | **UCRT** 静态 `/MT`（`windows/cmake/static_runtime.cmake`） |
-| 验证脚本 | `tool/configure_static_link.ps1`（Release CI 构建前执行）   |
+| 验证脚本 | `pnpm ci:configure-static-link`（Release CI 构建前执行）    |
 
 ## macOS
 
@@ -63,7 +63,7 @@ flutter pub get
 | -------- | ---------------------------------------------------------- |
 | 最低版本 | macOS 12.0（`MACOSX_DEPLOYMENT_TARGET`）                   |
 | Release  | `macos/Runner/Configs/StaticLink.xcconfig`（`-lc++`、LTO） |
-| 验证脚本 | `tool/configure_static_link.sh`（Release CI 构建前执行）   |
+| 验证脚本 | `pnpm ci:configure-static-link`（Release CI 构建前执行）   |
 
 ## Flutter / Dart 依赖镜像
 
