@@ -39,6 +39,9 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
+      - name: Install pnpm
+        run: npm i -g pnpm
+
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
 
@@ -72,6 +75,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
 
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
@@ -116,6 +122,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
 
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
@@ -163,6 +172,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
 
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
@@ -216,6 +228,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install pnpm
+        run: npm i -g pnpm
 
       - name: Install Node dependencies
         run: pnpm install --frozen-lockfile
