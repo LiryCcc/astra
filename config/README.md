@@ -53,3 +53,7 @@ flutter pub get
 ## 应用配置
 
 [flutter/project_config.yaml](flutter/project_config.yaml) 汇总移动端最低版本与镜像策略，供 CI / 脚本读取。
+
+## GitHub Actions
+
+四端 Release 构建与上传见 [github/release.md](github/release.md)。
