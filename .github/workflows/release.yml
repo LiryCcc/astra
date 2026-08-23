@@ -10,13 +10,14 @@ on:
         type: string
 
 concurrency:
-  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
+  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || format('build-{0}', github.sha)) }}
   cancel-in-progress: true
 
 env:
   FLUTTER_VERSION: '3.47.1'
   NODE_VERSION: '24'
-  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
+  # GitHub rejects tag names that are exactly 40/64 hex chars (commit/object hashes).
+  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || format('build-{0}', github.sha)) }}
   ASTRA_WORKSPACE: ${{ github.workspace }}
   ASTRA_RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || (startsWith(github.ref, 'refs/tags/') && github.ref_name || github.sha) }}
 

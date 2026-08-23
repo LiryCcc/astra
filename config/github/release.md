@@ -74,7 +74,11 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-### 2. 手动触发
+### 2. 推送分支（自动生成标签）
+
+向任意分支 push 时也会触发 Release 工作流。此时 GitHub Release 标签为 `build-<commit SHA>`（例如 `build-7663c7eb1763c8ad6957b45bc848715ee629d6bd`），因为 GitHub 不允许使用 40/64 位纯十六进制字符串作为 tag 名。产物文件名仍使用 7 位短 SHA（如 `astra-android-7663c7e.apk`）。
+
+### 3. 手动触发
 
 在 GitHub **Actions → Release → Run workflow** 中输入标签（如 `v1.0.0`）。
 
