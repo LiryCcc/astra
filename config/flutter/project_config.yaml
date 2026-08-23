@@ -2,7 +2,7 @@
 
 android:
   min_sdk: 33
-  min_os: "13.0"
+  min_os: '13.0'
   maven_mirrors:
     - name: tencent
       url: https://mirrors.cloud.tencent.com/nexus/repository/maven-public/
@@ -32,5 +32,5 @@ flutter:
 
 ios:
   swift_package_manager: true
-  minimum_version: "18.0"
+  minimum_version: '18.0'
   # 不使用 CocoaPods；插件通过 FlutterGeneratedPluginSwiftPackage (SPM) 集成

@@ -2,9 +2,9 @@
 
 ## 工作流
 
-| 文件 | 说明 |
-|------|------|
-| [.github/workflows/ci.yml](../../.github/workflows/ci.yml) | 推送 / PR 时代码检查 |
+| 文件                                                                 | 说明                          |
+| -------------------------------------------------------------------- | ----------------------------- |
+| [.github/workflows/ci.yml](../../.github/workflows/ci.yml)           | 推送 / PR 时代码检查          |
 | [.github/workflows/release.yml](../../.github/workflows/release.yml) | 四端打包并发布 GitHub Release |
 
 ## CI 检查（`ci.yml`）
@@ -42,24 +42,24 @@ git push origin v1.0.0
 
 ## 构建产物
 
-| 平台 | 产物 | 说明 |
-|------|------|------|
-| Android | `astra-android-<version>.apk` | Release APK |
-| iOS | `astra-ios-unsigned-<version>.ipa` | **未签名** IPA（`--no-codesign`） |
-| Windows | `astra-windows-<version>.zip` | `Release/` 目录压缩包 |
-| macOS | `astra-macos-<version>.zip` | `astra.app` 压缩包 |
+| 平台    | 产物                               | 说明                              |
+| ------- | ---------------------------------- | --------------------------------- |
+| Android | `astra-android-<version>.apk`      | Release APK                       |
+| iOS     | `astra-ios-unsigned-<version>.ipa` | **未签名** IPA（`--no-codesign`） |
+| Windows | `astra-windows-<version>.zip`      | `Release/` 目录压缩包             |
+| macOS   | `astra-macos-<version>.zip`        | `astra.app` 压缩包                |
 
 `<version>` 为标签去掉 `v` 前缀，例如标签 `v1.0.0` → `1.0.0`。
 
 ## Runner 分配
 
-| Job | Runner |
-|-----|--------|
-| Android | `ubuntu-latest` |
-| iOS | `macos-latest` |
-| Windows | `windows-latest` |
-| macOS | `macos-latest` |
-| Release 上传 | `ubuntu-latest` |
+| Job          | Runner           |
+| ------------ | ---------------- |
+| Android      | `ubuntu-latest`  |
+| iOS          | `macos-latest`   |
+| Windows      | `windows-latest` |
+| macOS        | `macos-latest`   |
+| Release 上传 | `ubuntu-latest`  |
 
 ## iOS 未签名 IPA
 

@@ -8,14 +8,14 @@
 
 ## 组件使用原则
 
-| 场景 | 推荐组件 |
-|------|----------|
-| 列表项 | `ListTile` |
-| 设置分组 | `ListTile` + 分组标题 |
-| 主操作按钮 | `FilledButton` / `ElevatedButton` |
-| 次要操作 | `TextButton` / `OutlinedButton` |
-| 输入 | `TextField` |
-| 卡片信息 | `Card` |
+| 场景              | 推荐组件                             |
+| ----------------- | ------------------------------------ |
+| 列表项            | `ListTile`                           |
+| 设置分组          | `ListTile` + 分组标题                |
+| 主操作按钮        | `FilledButton` / `ElevatedButton`    |
+| 次要操作          | `TextButton` / `OutlinedButton`      |
+| 输入              | `TextField`                          |
+| 卡片信息          | `Card`                               |
 | 单选（主题/语言） | `RadioListTile` 或 `SegmentedButton` |
 
 ## 一致性要求

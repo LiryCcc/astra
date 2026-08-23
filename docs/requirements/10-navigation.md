@@ -6,19 +6,19 @@
 
 ## 导航项
 
-| 标签（本地化） | 路由 | 图标建议 |
-|----------------|------|----------|
-| 首页 | `/` | `home` |
-| Todo | `/todos` | `checklist` |
-| 设置 | `/settings` | `settings` |
+| 标签（本地化） | 路由        | 图标建议    |
+| -------------- | ----------- | ----------- |
+| 首页           | `/`         | `home`      |
+| Todo           | `/todos`    | `checklist` |
+| 设置           | `/settings` | `settings`  |
 
 ## 导航形态（按设备）
 
-| 设备 | 导航组件 | 位置 |
-|------|----------|------|
-| 手机 | `BottomNavigationBar` | 底部 |
-| 平板 | `NavigationRail` | 左侧（窄栏） |
-| 桌面 | `NavigationRail` 或 `NavigationDrawer` | 左侧 |
+| 设备 | 导航组件                               | 位置         |
+| ---- | -------------------------------------- | ------------ |
+| 手机 | `BottomNavigationBar`                  | 底部         |
+| 平板 | `NavigationRail`                       | 左侧（窄栏） |
+| 桌面 | `NavigationRail` 或 `NavigationDrawer` | 左侧         |
 
 具体断点与切换规则见 [多端适配](11-adaptive-layout.md)。
 

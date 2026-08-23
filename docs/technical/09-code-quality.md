@@ -2,29 +2,29 @@
 
 对应 `.editorconfig` 的格式化与静态检查方案。Dart/Flutter 生态中：
 
-| JS 生态 | Dart/Flutter 等价 |
-|---------|-------------------|
-| Prettier | `dart format` |
-| ESLint | `dart analyze` + `flutter_lints` |
+| JS 生态  | Dart/Flutter 等价                |
+| -------- | -------------------------------- |
+| Prettier | `dart format`                    |
+| ESLint   | `dart analyze` + `flutter_lints` |
 
 ## 配置文件
 
-| 文件 | 作用 |
-|------|------|
-| `.editorconfig` | 编辑器基础风格（缩进、换行、行宽） |
+| 文件                    | 作用                                       |
+| ----------------------- | ------------------------------------------ |
+| `.editorconfig`         | 编辑器基础风格（缩进、换行、行宽）         |
 | `analysis_options.yaml` | Linter 规则、analyzer 严格模式、格式化行宽 |
-| `.vscode/settings.json` | Cursor/VS Code 保存时自动格式化 |
-| `pubspec.yaml` | `flutter_lints` 开发依赖 |
+| `.vscode/settings.json` | Cursor/VS Code 保存时自动格式化            |
+| `pubspec.yaml`          | `flutter_lints` 开发依赖                   |
 
 ## 与 .editorconfig 对齐
 
-| .editorconfig | Dart 配置 |
-|---------------|-----------|
-| `indent_size = 2` | `dart format` 默认 2 空格；VS Code `tabSize: 2` |
-| `max_line_length = 120` | `analysis_options.yaml` → `formatter.page_width: 120` |
-| `end_of_line = lf` | `files.eol: "\n"` |
-| `trim_trailing_whitespace` | `dart format` 自动处理 |
-| `insert_final_newline` | `dart format` 自动处理 |
+| .editorconfig              | Dart 配置                                             |
+| -------------------------- | ----------------------------------------------------- |
+| `indent_size = 2`          | `dart format` 默认 2 空格；VS Code `tabSize: 2`       |
+| `max_line_length = 120`    | `analysis_options.yaml` → `formatter.page_width: 120` |
+| `end_of_line = lf`         | `files.eol: "\n"`                                     |
+| `trim_trailing_whitespace` | `dart format` 自动处理                                |
+| `insert_final_newline`     | `dart format` 自动处理                                |
 
 ## 命令
 
@@ -44,11 +44,11 @@ dart analyze --fatal-infos
 
 ### 脚本说明
 
-| 脚本 | 说明 |
-|------|------|
-| `tool/format.ps1` / `format.sh` | 格式化所有 Dart 文件 |
-| `tool/lint.ps1` / `lint.sh` | 运行 `dart analyze` |
-| `tool/check.ps1` / `check.sh` | 格式检查 + analyze + `flutter test`（CI 用） |
+| 脚本                            | 说明                                         |
+| ------------------------------- | -------------------------------------------- |
+| `tool/format.ps1` / `format.sh` | 格式化所有 Dart 文件                         |
+| `tool/lint.ps1` / `lint.sh`     | 运行 `dart analyze`                          |
+| `tool/check.ps1` / `check.sh`   | 格式检查 + analyze + `flutter test`（CI 用） |
 
 ## Linter 规则
 

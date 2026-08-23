@@ -103,11 +103,11 @@ class ContentContainer extends StatelessWidget {
 
 ### 各页 maxWidth
 
-| 页面 | maxWidth |
-|------|----------|
-| 首页 | 不限宽（全屏居中） |
-| 设置页 | 720 |
-| Todo 页 | 800 |
+| 页面    | maxWidth           |
+| ------- | ------------------ |
+| 首页    | 不限宽（全屏居中） |
+| 设置页  | 720                |
+| Todo 页 | 800                |
 
 ## 首页居中布局
 
@@ -145,12 +145,12 @@ MouseRegion(
 
 ## 测试断点的方式
 
-| 平台 | 方法 |
-|------|------|
-| Windows/macOS | 拖动窗口边缘改变宽度 |
-| Android 模拟器 | 切换手机/平板设备配置 |
-| iOS 模拟器 | iPhone / iPad 设备；iPad 分屏 |
-| Flutter DevTools | 调整设备尺寸预览 |
+| 平台             | 方法                          |
+| ---------------- | ----------------------------- |
+| Windows/macOS    | 拖动窗口边缘改变宽度          |
+| Android 模拟器   | 切换手机/平板设备配置         |
+| iOS 模拟器       | iPhone / iPad 设备；iPad 分屏 |
+| Flutter DevTools | 调整设备尺寸预览              |
 
 ## 注意点
 

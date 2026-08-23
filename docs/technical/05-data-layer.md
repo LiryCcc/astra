@@ -23,11 +23,11 @@ class Todo {
 
 ## 存储方案
 
-| 数据 | 存储 | 说明 |
-|------|------|------|
-| 主题偏好 | shared_preferences | 字符串 `theme_mode` |
-| 语言偏好 | shared_preferences | 字符串 `app_locale` |
-| Todo 列表 | Hive Box | `Box<Todo>`，key 为 `todos` |
+| 数据      | 存储               | 说明                        |
+| --------- | ------------------ | --------------------------- |
+| 主题偏好  | shared_preferences | 字符串 `theme_mode`         |
+| 语言偏好  | shared_preferences | 字符串 `app_locale`         |
+| Todo 列表 | Hive Box           | `Box<Todo>`，key 为 `todos` |
 
 ## Repository 接口
 

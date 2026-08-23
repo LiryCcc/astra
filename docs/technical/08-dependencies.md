@@ -5,7 +5,7 @@
 ```yaml
 name: astra
 description: Cross-platform todo app with Material Design 3.
-publish_to: "none"
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -29,13 +29,13 @@ dev_dependencies:
 
 ## 依赖说明
 
-| 包 | 用途 |
-|----|------|
-| flutter_riverpod | 状态管理 |
-| go_router | 声明式路由 |
+| 包                 | 用途                 |
+| ------------------ | -------------------- |
+| flutter_riverpod   | 状态管理             |
+| go_router          | 声明式路由           |
 | shared_preferences | 主题、语言偏好持久化 |
-| package_info_plus | 首页读取应用版本号 |
-| flutter_lints | 静态分析规则 |
+| package_info_plus  | 首页读取应用版本号   |
+| flutter_lints      | 静态分析规则         |
 
 ## 升级命令
 

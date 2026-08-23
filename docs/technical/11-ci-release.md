@@ -2,21 +2,21 @@
 
 ## 概述
 
-| 工作流 | 触发 | 作用 |
-|--------|------|------|
-| [CI](../../.github/workflows/ci.yml) | push / PR → `main` | 格式、Linter、测试 |
-| [Release](../../.github/workflows/release.yml) | push / 手动 | 先检查，再四端打包上传 Release |
+| 工作流                                         | 触发               | 作用                           |
+| ---------------------------------------------- | ------------------ | ------------------------------ |
+| [CI](../../.github/workflows/ci.yml)           | push / PR → `main` | 格式、Linter、测试             |
+| [Release](../../.github/workflows/release.yml) | push / 手动        | 先检查，再四端打包上传 Release |
 
 详细说明见 [config/github/release.md](../../config/github/release.md)。
 
 ## 产物清单
 
-| 平台 | 文件 |
-|------|------|
-| Android | `astra-android-<version>.apk` |
-| iOS | `astra-ios-unsigned-<version>.ipa`（未签名） |
-| Windows | `astra-windows-<version>.zip` |
-| macOS | `astra-macos-<version>.zip` |
+| 平台    | 文件                                         |
+| ------- | -------------------------------------------- |
+| Android | `astra-android-<version>.apk`                |
+| iOS     | `astra-ios-unsigned-<version>.ipa`（未签名） |
+| Windows | `astra-windows-<version>.zip`                |
+| macOS   | `astra-macos-<version>.zip`                  |
 
 ## 发布新版本
 

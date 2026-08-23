@@ -4,13 +4,13 @@
 
 ## Android
 
-| 文件 | 说明 |
-|------|------|
-| [android/settings.gradle.kts](android/settings.gradle.kts) | Maven 国内镜像（插件解析） |
-| [android/build.gradle.kts](android/build.gradle.kts) | Maven 国内镜像（依赖解析） |
-| [android/gradle/wrapper/gradle-wrapper.properties](android/gradle-wrapper.properties) | Gradle 发行包从腾讯云下载 |
-| [android/gradle.properties](android/gradle.properties) | Gradle 构建参数 |
-| [android/app/build.gradle.kts](android/app/build.gradle.kts) | `minSdk = 33`（Android 13.0） |
+| 文件                                                                                  | 说明                          |
+| ------------------------------------------------------------------------------------- | ----------------------------- |
+| [android/settings.gradle.kts](android/settings.gradle.kts)                            | Maven 国内镜像（插件解析）    |
+| [android/build.gradle.kts](android/build.gradle.kts)                                  | Maven 国内镜像（依赖解析）    |
+| [android/gradle/wrapper/gradle-wrapper.properties](android/gradle-wrapper.properties) | Gradle 发行包从腾讯云下载     |
+| [android/gradle.properties](android/gradle.properties)                                | Gradle 构建参数               |
+| [android/app/build.gradle.kts](android/app/build.gradle.kts)                          | `minSdk = 33`（Android 13.0） |
 
 ### Maven 镜像源
 
@@ -33,10 +33,10 @@ distributionUrl=https\://mirrors.cloud.tencent.com/gradle/gradle-<version>-all.z
 
 ## iOS
 
-| 项 | 配置 |
-|----|------|
-| 依赖管理 | **Swift Package Manager（SPM）**，不使用 CocoaPods |
-| 最低版本 | iOS 18.0（`IPHONEOS_DEPLOYMENT_TARGET`） |
+| 项       | 配置                                                     |
+| -------- | -------------------------------------------------------- |
+| 依赖管理 | **Swift Package Manager（SPM）**，不使用 CocoaPods       |
+| 最低版本 | iOS 18.0（`IPHONEOS_DEPLOYMENT_TARGET`）                 |
 | 插件集成 | `FlutterGeneratedPluginSwiftPackage`（Flutter 自动生成） |
 
 ### SPM 说明
@@ -52,12 +52,12 @@ flutter pub get
 
 ## Flutter / Dart 依赖镜像
 
-| 文件 | 说明 |
-|------|------|
-| [flutter/mirrors.md](flutter/mirrors.md) | Pub / Flutter Storage 国内镜像说明 |
-| [flutter/mirror.env](flutter/mirror.env) | 环境变量模板 |
-| [../tool/flutter_china.ps1](../tool/flutter_china.ps1) | Windows 镜像包装脚本 |
-| [../tool/flutter_china.sh](../tool/flutter_china.sh) | macOS / Linux 镜像包装脚本 |
+| 文件                                                   | 说明                               |
+| ------------------------------------------------------ | ---------------------------------- |
+| [flutter/mirrors.md](flutter/mirrors.md)               | Pub / Flutter Storage 国内镜像说明 |
+| [flutter/mirror.env](flutter/mirror.env)               | 环境变量模板                       |
+| [../tool/flutter_china.ps1](../tool/flutter_china.ps1) | Windows 镜像包装脚本               |
+| [../tool/flutter_china.sh](../tool/flutter_china.sh)   | macOS / Linux 镜像包装脚本         |
 
 国内开发安装依赖：
 

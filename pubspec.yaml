@@ -1,6 +1,6 @@
 name: astra
 description: Cross-platform todo app with Material Design 3.
-publish_to: "none"
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:

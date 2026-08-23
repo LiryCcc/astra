@@ -4,16 +4,16 @@
 
 ## 环境变量
 
-| 变量 | 作用 | TUNA 镜像（推荐） |
-|------|------|-------------------|
-| `PUB_HOSTED_URL` | Dart / Flutter 包（pub.dev） | `https://mirrors.tuna.tsinghua.edu.cn/dart-pub` |
-| `FLUTTER_STORAGE_BASE_URL` | Flutter 引擎、工具链资源 | `https://mirrors.tuna.tsinghua.edu.cn/flutter` |
+| 变量                       | 作用                         | TUNA 镜像（推荐）                               |
+| -------------------------- | ---------------------------- | ----------------------------------------------- |
+| `PUB_HOSTED_URL`           | Dart / Flutter 包（pub.dev） | `https://mirrors.tuna.tsinghua.edu.cn/dart-pub` |
+| `FLUTTER_STORAGE_BASE_URL` | Flutter 引擎、工具链资源     | `https://mirrors.tuna.tsinghua.edu.cn/flutter`  |
 
 备选（Flutter 社区 CFUG）：
 
-| 变量 | 地址 |
-|------|------|
-| `PUB_HOSTED_URL` | `https://pub.flutter-io.cn` |
+| 变量                       | 地址                            |
+| -------------------------- | ------------------------------- |
+| `PUB_HOSTED_URL`           | `https://pub.flutter-io.cn`     |
 | `FLUTTER_STORAGE_BASE_URL` | `https://storage.flutter-io.cn` |
 
 ## 使用方式
@@ -65,11 +65,11 @@ flutter pub get
 
 ## 与 Android 镜像的关系
 
-| 层级 | 配置位置 |
-|------|----------|
-| Dart / Flutter 包 | 本文档（`PUB_HOSTED_URL` 等） |
-| Gradle 发行包 | `android/gradle/wrapper/gradle-wrapper.properties`（腾讯云） |
-| Maven 依赖 | `android/settings.gradle.kts`、`android/build.gradle.kts` |
+| 层级              | 配置位置                                                     |
+| ----------------- | ------------------------------------------------------------ |
+| Dart / Flutter 包 | 本文档（`PUB_HOSTED_URL` 等）                                |
+| Gradle 发行包     | `android/gradle/wrapper/gradle-wrapper.properties`（腾讯云） |
+| Maven 依赖        | `android/settings.gradle.kts`、`android/build.gradle.kts`    |
 
 ## CI 说明
 
