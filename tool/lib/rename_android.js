@@ -1,5 +1,7 @@
-import { copyFileSync, existsSync } from 'node:fs';
+import { copyFileSync } from 'node:fs';
 import { basename, join } from 'node:path';
+
+import { findAndroidReleaseApk } from './find_build_output.js';
 
 /** @typedef {import('./types.js').PackageReleaseOptions} PackageReleaseOptions */
 
@@ -10,13 +12,9 @@ import { basename, join } from 'node:path';
  * @returns {void}
  */
 export const renameAndroidApk = ({ version, workspace }) => {
-  const sourceApk = join(workspace, 'build/app/outputs/flutter-apk/app-release.apk');
+  const sourceApk = findAndroidReleaseApk(workspace);
   const targetApk = join(workspace, `astra-android-${version}.apk`);
 
-  if (!existsSync(sourceApk)) {
-    throw new Error(`APK not found: ${sourceApk}`);
-  }
-
   copyFileSync(sourceApk, targetApk);
-  console.log(`Created ${basename(targetApk)}`);
+  console.log(`Created ${basename(targetApk)} from ${basename(sourceApk)}`);
 };

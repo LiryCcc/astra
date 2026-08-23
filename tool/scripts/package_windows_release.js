@@ -1,16 +1,16 @@
-import { requireArg, printUsageAndExit } from '../lib/cli.js';
+import { printUsageAndExit } from '../lib/cli.js';
 import { packageWindowsRelease } from '../lib/package_windows.js';
 import { resolveReleaseVersion } from '../lib/resolve_release_version.js';
-import { getRepoRootFromScriptDir } from '../lib/repo_root.js';
+import { resolveReleaseTag, resolveWorkspace } from '../lib/workspace.js';
 
 const main = () => {
   const argv = process.argv.slice(2);
-  if (argv.length < 1) {
+  const releaseTag = resolveReleaseTag(argv, 0);
+  if (!releaseTag) {
     printUsageAndExit(import.meta.filename, '<release-tag> [workspace]');
   }
 
-  const releaseTag = requireArg(argv, 0, 'release-tag');
-  const workspace = argv[1] ?? getRepoRootFromScriptDir(import.meta.dirname);
+  const workspace = resolveWorkspace(argv, 1);
   const version = resolveReleaseVersion(releaseTag);
 
   packageWindowsRelease({ version, workspace });
