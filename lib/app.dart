@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app_router.dart';
@@ -22,6 +23,11 @@ class AstraApp extends ConsumerWidget {
       themeMode: themeMode,
       locale: locale.toFlutterLocale(),
       supportedLocales: const [Locale('zh', 'CN'), Locale('en'), Locale('ja')],
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       routerConfig: appRouter,
     );
   }
