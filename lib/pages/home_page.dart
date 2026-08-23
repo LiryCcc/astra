@@ -40,8 +40,18 @@ class _HomeContent extends StatelessWidget {
         Container(
           width: 96,
           height: 96,
-          decoration: BoxDecoration(color: theme.colorScheme.primaryContainer, shape: BoxShape.circle),
-          child: Icon(Icons.north, size: 48, color: theme.colorScheme.onPrimaryContainer),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                blurRadius: 16,
+                offset: const Offset(0, 6),
+              ),
+            ],
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: Image.asset('assets/images/app_logo.png', width: 96, height: 96, fit: BoxFit.cover),
         ),
         const SizedBox(height: 16),
         Text(appTitle, style: theme.textTheme.headlineMedium),

@@ -11,14 +11,17 @@
     "ci:package-windows-artifact": "node tool/scripts/package_windows_artifact.js",
     "ci:package-windows-release": "node tool/scripts/package_windows_release.js",
     "ci:rename-android-apk": "node tool/scripts/rename_android_apk.js",
+    "generate:icons": "node tool/scripts/generate_app_icons.js",
     "format": "prettier . --write --cache"
   },
   "devDependencies": {
+    "@napi-rs/canvas": "^0.1.80",
     "@types/node": "^24.13.3",
     "prettier": "^3.9.6",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-packagejson": "^3.0.2",
-    "prettier-plugin-toml": "^2.0.6"
+    "prettier-plugin-toml": "^2.0.6",
+    "to-ico": "^1.1.5"
   },
   "engines": {
     "node": "^24.0.0"

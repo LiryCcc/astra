@@ -10,7 +10,7 @@
 | 主题          | `styles.xml` 使用 Material 主题                                        |
 | 平板          | `sw600dp` 资源可选；逻辑上由断点处理                                   |
 | 全面屏        | 使用 `SafeArea`，必要时 `SystemChrome.setEnabledSystemUIMode`          |
-| 启动图标      | `flutter_launcher_icons`（可选，非首版必须）                           |
+| 启动图标      | `pnpm generate:icons`（`@napi-rs/canvas` 动态生成，CI 自动运行）       |
 
 ## iOS
 

@@ -11,9 +11,10 @@
 
 在 `main` 分支 push 或 PR 时自动运行：
 
-1. `dart format` 格式检查（120 列）
-2. `dart analyze --fatal-infos` 静态分析 / Linter
-3. `flutter test` 单元 / Widget 测试
+1. `pnpm generate:icons` 动态生成各平台启动图标
+2. `dart format` 格式检查（120 列）
+3. `dart analyze --fatal-infos` 静态分析 / Linter
+4. `flutter test` 单元 / Widget 测试
 
 本地等价命令：
 
@@ -51,7 +52,8 @@ CI / Release 脚本使用 **Node.js ESM（`.js`）**，分两类：
 
 | `pnpm` 命令                               | 入口脚本                                          | 用途                          |
 | ----------------------------------------- | ------------------------------------------------- | ----------------------------- |
-| `pnpm check`                              | `tool/scripts/check.js`                           | 格式 + analyze + test         |
+| `pnpm check`                              | `tool/scripts/check.js`                           | 生成图标 + 格式 + analyze + test |
+| `pnpm generate:icons`                     | `tool/scripts/generate_app_icons.js`              | 用 canvas 生成各平台图标         |
 | `pnpm ci:rename-android-apk`              | `tool/scripts/rename_android_apk.js`              | 重命名 Android APK            |
 | `pnpm ci:package-ios-ipa`                 | `tool/scripts/package_ios_ipa.js`                 | 打包未签名 iOS IPA            |
 | `pnpm ci:install-windows-packaging-tools` | `tool/scripts/install_windows_packaging_tools.js` | 安装并校验 Inno Setup / 7-Zip |

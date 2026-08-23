@@ -8,9 +8,12 @@
 build/
 coverage/
 
-# Generated
-*.g.dart
-*.freezed.dart
+# Generated app icons (pnpm generate:icons)
+android/app/src/main/res/mipmap-*/ic_launcher.png
+ios/Runner/Assets.xcassets/AppIcon.appiconset/*.png
+macos/Runner/Assets.xcassets/AppIcon.appiconset/*.png
+windows/runner/resources/app_icon.ico
+assets/images/app_logo.png
 
 # IDE
 .idea/
