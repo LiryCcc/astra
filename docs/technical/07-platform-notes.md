@@ -12,6 +12,14 @@
 | 全面屏        | 使用 `SafeArea`，必要时 `SystemChrome.setEnabledSystemUIMode`          |
 | 启动图标      | `pnpm generate:icons`（`@napi-rs/canvas` 动态生成，CI 自动运行）       |
 
+## Web
+
+| 项       | 说明                                                                     |
+| -------- | ------------------------------------------------------------------------ |
+| 启动图标 | `web/favicon.png`、`web/icons/Icon-*.png`，由 `pnpm generate:icons` 生成 |
+| PWA      | `web/manifest.json` 主题色与图标背景对齐（`#080B14`）                    |
+| 调试     | `flutter run -d chrome` 或 Cursor **Run and Debug → astra (chrome)**     |
+
 ## iOS
 
 | 项         | 说明                                                                       |
@@ -44,7 +52,7 @@
 
 ## 通用
 
-- 四端均通过 `flutter create --platforms=android,ios,windows,macos` 生成
+- 各平台通过 `flutter create --platforms=android,ios,windows,macos,web` 生成
 - 移动端最低版本：**Android 13.0（API 33）**、**iOS 18**
 - 桌面端最低版本：**Windows 10**、**macOS 12.0**
 - 原生工具链与 C 运行时详见 [平台工具链与 C 运行时](12-platform-toolchains.md)

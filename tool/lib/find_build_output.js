@@ -15,9 +15,7 @@ export const findExistingPath = (candidates, label) => {
     }
   }
 
-  throw new Error(
-    `${label} not found. Checked:\n${candidates.map((candidate) => `  - ${candidate}`).join('\n')}`
-  );
+  throw new Error(`${label} not found. Checked:\n${candidates.map((candidate) => `  - ${candidate}`).join('\n')}`);
 };
 
 /**

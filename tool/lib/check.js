@@ -28,4 +28,3 @@ export const runChecks = async (workspace = process.cwd()) => {
  * @returns {Promise<void>}
  */
 export const runDartChecks = runChecks;
-

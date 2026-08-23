@@ -2,9 +2,9 @@
 
 ## 工作流
 
-| 文件                                                                 | 说明                          |
-| -------------------------------------------------------------------- | ----------------------------- |
-| [.github/workflows/ci.yml](../../.github/workflows/ci.yml)           | 推送 / PR 时代码检查          |
+| 文件                                                                 | 说明                                        |
+| -------------------------------------------------------------------- | ------------------------------------------- |
+| [.github/workflows/ci.yml](../../.github/workflows/ci.yml)           | 推送 / PR 时代码检查                        |
 | [.github/workflows/release.yml](../../.github/workflows/release.yml) | 八端独立打包；任意成功即发布 GitHub Release |
 
 ## CI 检查（`ci.yml`）
@@ -30,16 +30,16 @@ CI 工作流同样调用 `pnpm check`。
 
 检查步骤：format → analyze → test → 八 job 并行 build + package → release（合并已成功 job 的产物）
 
-| Job                  | Runner           | 产物                                       |
-| -------------------- | ---------------- | ------------------------------------------ |
-| `android-apk`        | `ubuntu-latest`  | `astra-android-<version>.apk`              |
-| `ios-ipa`            | `macos-latest`   | `astra-ios-unsigned-<version>.ipa`         |
-| `macos-zip`          | `macos-latest`   | `astra-macos-<version>-portable.zip`       |
-| `macos-dmg`          | `macos-latest`   | `astra-macos-<version>.dmg`                |
-| `macos-standalone`   | `macos-latest`   | `astra-macos-<version>-standalone.run`     |
-| `windows-zip`        | `windows-latest` | `astra-windows-<version>-portable.zip`     |
-| `windows-setup`      | `windows-latest` | `astra-windows-<version>-setup.exe`        |
-| `windows-standalone` | `windows-latest` | `astra-windows-<version>-standalone.exe`   |
+| Job                  | Runner           | 产物                                     |
+| -------------------- | ---------------- | ---------------------------------------- |
+| `android-apk`        | `ubuntu-latest`  | `astra-android-<version>.apk`            |
+| `ios-ipa`            | `macos-latest`   | `astra-ios-unsigned-<version>.ipa`       |
+| `macos-zip`          | `macos-latest`   | `astra-macos-<version>-portable.zip`     |
+| `macos-dmg`          | `macos-latest`   | `astra-macos-<version>.dmg`              |
+| `macos-standalone`   | `macos-latest`   | `astra-macos-<version>-standalone.run`   |
+| `windows-zip`        | `windows-latest` | `astra-windows-<version>-portable.zip`   |
+| `windows-setup`      | `windows-latest` | `astra-windows-<version>-setup.exe`      |
+| `windows-standalone` | `windows-latest` | `astra-windows-<version>-standalone.exe` |
 
 单个 job 失败不会阻断其他 job；`release` job 在 **至少一个** 构建 job 成功时运行，并仅上传已成功 job 的 artifact。
 
@@ -50,18 +50,18 @@ CI / Release 脚本使用 **Node.js ESM（`.js`）**，分两类：
 | [`tool/lib/`](../../tool/lib/)         | 仅导出工具函数（`export const ...`） |
 | [`tool/scripts/`](../../tool/scripts/) | 可执行入口，`main()` 中编排逻辑      |
 
-| `pnpm` 命令                               | 入口脚本                                          | 用途                          |
-| ----------------------------------------- | ------------------------------------------------- | ----------------------------- |
-| `pnpm check`                              | `tool/scripts/check.js`                           | 生成图标 + 格式 + analyze + test |
-| `pnpm generate:icons`                     | `tool/scripts/generate_app_icons.js`              | 用 canvas 生成各平台图标         |
-| `pnpm ci:rename-android-apk`              | `tool/scripts/rename_android_apk.js`              | 重命名 Android APK            |
-| `pnpm ci:package-ios-ipa`                 | `tool/scripts/package_ios_ipa.js`                 | 打包未签名 iOS IPA            |
-| `pnpm ci:install-windows-packaging-tools` | `tool/scripts/install_windows_packaging_tools.js` | 安装并校验 Inno Setup / 7-Zip |
-| `pnpm ci:configure-static-link`           | `tool/scripts/configure_static_link.js`           | 校验静态链接配置              |
-| `pnpm ci:package-macos-artifact`          | `tool/scripts/package_macos_artifact.js`          | macOS 单产物（zip / dmg / standalone） |
-| `pnpm ci:package-macos-release`           | `tool/scripts/package_macos_release.js`           | macOS 三件套打包（本地）               |
+| `pnpm` 命令                               | 入口脚本                                          | 用途                                       |
+| ----------------------------------------- | ------------------------------------------------- | ------------------------------------------ |
+| `pnpm check`                              | `tool/scripts/check.js`                           | 生成图标 + 格式 + analyze + test           |
+| `pnpm generate:icons`                     | `tool/scripts/generate_app_icons.js`              | 用 canvas 生成各平台图标                   |
+| `pnpm ci:rename-android-apk`              | `tool/scripts/rename_android_apk.js`              | 重命名 Android APK                         |
+| `pnpm ci:package-ios-ipa`                 | `tool/scripts/package_ios_ipa.js`                 | 打包未签名 iOS IPA                         |
+| `pnpm ci:install-windows-packaging-tools` | `tool/scripts/install_windows_packaging_tools.js` | 安装并校验 Inno Setup / 7-Zip              |
+| `pnpm ci:configure-static-link`           | `tool/scripts/configure_static_link.js`           | 校验静态链接配置                           |
+| `pnpm ci:package-macos-artifact`          | `tool/scripts/package_macos_artifact.js`          | macOS 单产物（zip / dmg / standalone）     |
+| `pnpm ci:package-macos-release`           | `tool/scripts/package_macos_release.js`           | macOS 三件套打包（本地）                   |
 | `pnpm ci:package-windows-artifact`        | `tool/scripts/package_windows_artifact.js`        | Windows 单产物（zip / setup / standalone） |
-| `pnpm ci:package-windows-release`         | `tool/scripts/package_windows_release.js`         | Windows 三件套打包（本地）             |
+| `pnpm ci:package-windows-release`         | `tool/scripts/package_windows_release.js`         | Windows 三件套打包（本地）                 |
 
 CI 中通过环境变量 `ASTRA_PACKAGE_TARGET` 指定单产物类型（`zip` / `dmg` / `standalone` 或 `zip` / `setup` / `standalone`）；`ASTRA_WORKSPACE` 与 `ASTRA_RELEASE_TAG` 由工作流注入。
 

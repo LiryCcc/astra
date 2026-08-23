@@ -7,8 +7,7 @@ import { requireArg } from './cli.js';
  * @param {number} [index] Positional workspace argument index.
  * @returns {string}
  */
-export const resolveWorkspace = (argv, index = 0) =>
-  process.env.ASTRA_WORKSPACE ?? argv[index] ?? process.cwd();
+export const resolveWorkspace = (argv, index = 0) => process.env.ASTRA_WORKSPACE ?? argv[index] ?? process.cwd();
 
 /**
  * Resolve the release tag from env or CLI args.

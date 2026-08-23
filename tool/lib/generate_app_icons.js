@@ -49,6 +49,14 @@ const MACOS_ICONS = [
 /** @type {readonly number[]} */
 const WINDOWS_ICO_SIZES = [16, 32, 48, 64, 128, 256];
 
+/** @type {readonly IconOutput[]} */
+const WEB_ICONS = [
+  { file: 'Icon-192.png', size: 192 },
+  { file: 'Icon-512.png', size: 512 },
+  { file: 'Icon-maskable-192.png', size: 192 },
+  { file: 'Icon-maskable-512.png', size: 512 }
+];
+
 /**
  * @param {string} directory
  * @param {string} filename
@@ -92,6 +100,13 @@ export const generateAppIcons = async (workspace = process.cwd()) => {
   const icoPath = join(windowsDir, 'app_icon.ico');
   writeFileSync(icoPath, await toIco(icoBuffers));
   console.log(`  ${icoPath} (${WINDOWS_ICO_SIZES.join(', ')}px)`);
+
+  console.log('Generating Web icons...');
+  const webIconsDir = join(workspace, 'web/icons');
+  for (const { file, size } of WEB_ICONS) {
+    writePng(webIconsDir, file, size);
+  }
+  writePng(join(workspace, 'web'), 'favicon.png', 32);
 
   console.log('Generating in-app logo...');
   writePng(join(workspace, 'assets/images'), 'app_logo.png', 512);

@@ -97,6 +97,37 @@ flutter run -d android
 flutter run -d ios
 ```
 
+### Web 调试
+
+项目初始化时未包含 Web 平台，首次需生成 `web/` 目录：
+
+```bash
+flutter create . --platforms=web
+flutter pub get
+```
+
+启动调试（热重载 + DevTools）：
+
+```bash
+# Chrome（推荐）
+flutter run -d chrome
+
+# Edge
+flutter run -d edge
+
+# 仅启动本地服务，不自动打开浏览器（默认 http://localhost:8080）
+flutter run -d web-server --web-port=8080
+```
+
+国内镜像（Windows）：
+
+```powershell
+.\tool\flutter_china.ps1 create . --platforms=web
+.\tool\flutter_china.ps1 run -d chrome
+```
+
+在 Cursor / VS Code 中也可使用 **Run and Debug** 面板，选择 `astra (chrome)` 后按 F5（配置见 `.vscode/launch.json`）。
+
 ## 7. 按阶段实施
 
 从 [P0 项目骨架](01-plan.md#p0--项目骨架) 开始，逐阶段完成至 P6。

@@ -13,6 +13,8 @@ android/app/src/main/res/mipmap-*/ic_launcher.png
 ios/Runner/Assets.xcassets/AppIcon.appiconset/*.png
 macos/Runner/Assets.xcassets/AppIcon.appiconset/*.png
 windows/runner/resources/app_icon.ico
+web/favicon.png
+web/icons/*.png
 assets/images/app_logo.png
 
 # IDE
