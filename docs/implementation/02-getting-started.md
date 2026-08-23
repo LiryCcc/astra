@@ -33,13 +33,13 @@ defaultConfig {
 }
 ```
 
-**iOS** — `ios/Podfile`：
+**iOS** — 启用 SPM 并在 `ios/Runner.xcodeproj` 中将 **iOS Deployment Target** 设为 `18.0`：
 
-```ruby
-platform :ios, '18.0'
+```bash
+flutter config --enable-swift-package-manager
 ```
 
-并在 `ios/Runner.xcodeproj` 中将 **iOS Deployment Target** 设为 `18.0`。
+**macOS** — 在 `macos/Runner.xcodeproj` 中将 **macOS Deployment Target** 设为 `12.0`。
 
 构建镜像与 SPM 配置见仓库 [`config/README.md`](../../config/README.md)：
 

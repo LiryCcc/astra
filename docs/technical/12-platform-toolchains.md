@@ -138,9 +138,9 @@ Windows 上的 C 标准库实现为 **UCRT**（Universal C Runtime）。本项�
 
 配置文件：
 
-- `windows/cmake/static_runtime.cmake`
+- `windows/cmake/static_runtime.cmake`（`CMAKE_MSVC_RUNTIME_LIBRARY`、`APPLY_STATIC_UCRT_RUNTIME`）
 - `windows/CMakeLists.txt`（`include(cmake/static_runtime.cmake)`）
-- `windows/runner/CMakeLists.txt`（`MSVC_RUNTIME_LIBRARY`）
+- `windows/runner/CMakeLists.txt`、`windows/flutter/CMakeLists.txt`（对各 native target 调用 `apply_static_ucrt_runtime`）
 
 效果：Runner（`astra.exe`）**不依赖** `ucrtbase.dll`、`vcruntime140.dll`、`msvcp140.dll` 等旁路 DLL。
 

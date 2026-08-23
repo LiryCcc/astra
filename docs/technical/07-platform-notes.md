@@ -24,24 +24,28 @@
 
 ## Windows
 
-| 项           | 说明                                     |
-| ------------ | ---------------------------------------- |
-| 默认窗口大小 | 建议 1280×720                            |
-| 最小窗口     | 建议 400×600，低于 600 宽走 compact 断点 |
-| 高 DPI       | Flutter 自动处理 Per-Monitor DPI         |
-| 标题栏       | 使用默认 Flutter 窗口装饰                |
+| 项           | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| 默认窗口大小 | 建议 1280×720                                                |
+| 最小窗口     | 建议 400×600，低于 600 宽走 compact 断点                     |
+| 高 DPI       | Flutter 自动处理 Per-Monitor DPI                             |
+| 标题栏       | 使用默认 Flutter 窗口装饰                                    |
+| C 运行时     | **UCRT** 静态 `/MT`，见 `windows/cmake/static_runtime.cmake` |
 
 ## macOS
 
 | 项       | 说明                                        |
 | -------- | ------------------------------------------- |
-| 最低版本 | 10.14+                                      |
+| 最低版本 | 12.0+（`MACOSX_DEPLOYMENT_TARGET = 12.0`）  |
 | 窗口缩放 | 支持自由缩放，断点实时响应                  |
 | 沙盒     | 上架 Mac App Store 时需配置；开发阶段可忽略 |
 | 菜单栏   | 首版使用系统默认，不自定义菜单              |
+| C++ 链接 | Release 含 `StaticLink.xcconfig`（`-lc++`） |
 
 ## 通用
 
 - 四端均通过 `flutter create --platforms=android,ios,windows,macos` 生成
 - 移动端最低版本：**Android 13.0（API 33）**、**iOS 18**
+- 桌面端最低版本：**Windows 10**、**macOS 12.0**
+- 原生工具链与 C 运行时详见 [平台工具链与 C 运行时](12-platform-toolchains.md)
 - 平台专属代码首版尽量少用，必要时通过 `adapters/` 抽象，不在页面中直接写 `Platform.isX`

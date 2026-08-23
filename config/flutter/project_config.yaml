@@ -34,3 +34,12 @@ ios:
   swift_package_manager: true
   minimum_version: '18.0'
   # 不使用 CocoaPods；插件通过 FlutterGeneratedPluginSwiftPackage (SPM) 集成
+
+macos:
+  minimum_version: '12.0'
+  static_link_xcconfig: macos/Runner/Configs/StaticLink.xcconfig
+
+windows:
+  c_runtime: ucrt
+  msvc_runtime_link: static_mt
+  cmake_module: windows/cmake/static_runtime.cmake

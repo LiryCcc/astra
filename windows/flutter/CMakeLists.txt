@@ -61,6 +61,7 @@ add_library(flutter_wrapper_plugin STATIC
   ${CPP_WRAPPER_SOURCES_PLUGIN}
 )
 apply_standard_settings(flutter_wrapper_plugin)
+apply_static_ucrt_runtime(flutter_wrapper_plugin)
 set_target_properties(flutter_wrapper_plugin PROPERTIES
   POSITION_INDEPENDENT_CODE ON)
 set_target_properties(flutter_wrapper_plugin PROPERTIES
@@ -77,6 +78,7 @@ add_library(flutter_wrapper_app STATIC
   ${CPP_WRAPPER_SOURCES_APP}
 )
 apply_standard_settings(flutter_wrapper_app)
+apply_static_ucrt_runtime(flutter_wrapper_app)
 target_link_libraries(flutter_wrapper_app PUBLIC flutter)
 target_include_directories(flutter_wrapper_app PUBLIC
   "${WRAPPER_ROOT}/include"

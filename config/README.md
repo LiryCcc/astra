@@ -50,6 +50,21 @@ flutter pub get
 
 详见 [ios/spm.md](ios/spm.md)。
 
+## Windows
+
+| 项       | 配置                                                        |
+| -------- | ----------------------------------------------------------- |
+| C 运行时 | **UCRT** 静态 `/MT`（`windows/cmake/static_runtime.cmake`） |
+| 验证脚本 | `tool/configure_static_link.ps1`（Release CI 构建前执行）   |
+
+## macOS
+
+| 项       | 配置                                                       |
+| -------- | ---------------------------------------------------------- |
+| 最低版本 | macOS 12.0（`MACOSX_DEPLOYMENT_TARGET`）                   |
+| Release  | `macos/Runner/Configs/StaticLink.xcconfig`（`-lc++`、LTO） |
+| 验证脚本 | `tool/configure_static_link.sh`（Release CI 构建前执行）   |
+
 ## Flutter / Dart 依赖镜像
 
 | 文件                                                   | 说明                               |

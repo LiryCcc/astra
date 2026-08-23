@@ -16,7 +16,7 @@
 | Android | API 33（Android 13.0） |
 | iOS     | iOS 18                 |
 | Windows | Windows 10             |
-| macOS   | macOS 10.14            |
+| macOS   | macOS 12.0             |
 
 ## 设备形态定义
 
